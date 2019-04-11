@@ -1,5 +1,6 @@
 module.exports = {
   title: 'hbbaly',
+  // base:'/blog/',
   description: '前端知识，vue，react，webpack',
   head: [
     ['link', { rel: 'icon', href: 'https://avatars1.githubusercontent.com/u/34227573?s=460&v=4' }]
