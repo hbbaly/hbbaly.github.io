@@ -2,7 +2,7 @@
 home: true
 heroImage: https://avatars1.githubusercontent.com/u/34227573?s=460&v=4
 actionText: 快速上手 →
-actionLink: /vue/vue.html
+actionLink: /vue/vue
 features:
 - title: 简洁至上
   details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
