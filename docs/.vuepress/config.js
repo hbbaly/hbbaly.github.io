@@ -1,5 +1,4 @@
 module.exports = {
-  base: '/docs/',
   title: 'hbbaly',
   description: '前端知识，vue，react，webpack',
   head: [
