@@ -9,8 +9,13 @@ module.exports = {
   },
   themeConfig: {
     repo: 'https://github.com/hbbaly/hbbaly.github.io',
+
     // 自定义仓库链接文字。默认从 `themeConfig.repo` 中自动推断为
     // "GitHub"/"GitLab"/"Bitbucket" 其中之一，或是 "Source"。
+    docsRepo: 'https://github.com/hbbaly/hbbaly.github.io',
+    // 假如文档不是放在仓库的根目录下：
+    docsDir: 'docs',
+    docsBranch: 'docs',
     repoLabel: 'GitHub',
     lastUpdated: '最后更新 ',// string | boolean
     editLinks: true,
