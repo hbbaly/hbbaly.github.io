@@ -80,7 +80,8 @@ function getReactSidebar () {
     collapsable: false,
     children: [
       'react',
-      'react-router'
+      'react-router',
+      'redux'
     ]
   }]
 }

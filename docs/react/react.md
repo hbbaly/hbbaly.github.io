@@ -934,44 +934,34 @@ const {Provider, Consumer} = React.createContext(defaultValue);
 
 接收一个 函数作为子节点. 函数接收当前 `context` 的值并返回一个 `React` 节点。传递给函数的 value 将等于组件树中上层 `context` 的最近的 `Provider` 的 value 属性。如果 `context` 没有 `Provider` ，那么 value 参数将等于被传递给 `createContext()` 的 `defaultValue`。
 
-## Portals
+## dangerouslySetHTML
 
-:::tip
-Portals 提供了一种很好的将子节点渲染到父组件以外的 DOM 节点的方式
+:::danger
+出于安全考虑的原因（XSS 攻击），在 React.js 当中所有的表达式插入的内容都会被自动转义。
 :::
 
-```js
-ReactDOM.createPortal(child, container)
-```
-
-第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或碎片。第二个参数（container）则是一个 DOM 元素。
-
-### 用法
-
-通常讲，当你从组件的 render 方法返回一个元素，该元素仅能装配 DOM 节点中离其最近的父元素：
-
-```js
-render() {
-  // React mounts a new div and renders the children into it
-  return (
-    <div>
-      {this.props.children}
-    </div>
-  );
+```js {12}
+class Editor extends Component {
+  constructor() {
+    super()
+    this.state = {
+      content: '<h1>hbbaly</h1>'
+    }
+  }
+  render () {
+    return (
+      <div
+        className='title-wrapper'
+        dangerouslySetInnerHTML={{__html: this.state.content}} />
+    )
+  }
 }
 ```
 
-然而，有时候将其插入到 DOM 节点的不同位置也是有用的
+## style
+
+React.js 中你需要把 CSS 属性变成一个对象再传给元素。
 
 ```js
-render() {
-  // React does *not* create a new div. It renders the children into `domNode`.
-  // `domNode` is any valid DOM node, regardless of its location in the DOM.
-  return ReactDOM.createPortal(
-    this.props.children,
-    domNode,
-  );
-}
+<div style={{width: '100px', height: '200px'}}>style</div>
 ```
-
-对于 portal 的一个典型用例是当父组件有 overflow: hidden 或 z-index 样式，但你需要子组件能够在视觉上“跳出（break out）”其容器
