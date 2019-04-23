@@ -32,7 +32,7 @@ export default (state=defaultState, action) => {
 }
 ```
 
-`TodoList.js`
+`App.js`
 
 ```js
 import React, { Component } from 'react'
@@ -50,4 +50,23 @@ class TodoList extends Component {
   }
 }
 ```
+## redux-devtools-extension
+
+[github](https://github.com/zalmoxisus/redux-devtools-extension)
+
+`store/index.js`
+
+```js
+import { createStore } from 'redux'
+import reducer from './reducer.js
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+export default store
+```
+
+在此之前要在浏览器上搭梯子下载扩展程序图标
+`Redux DevTools`插件。
+
+运行可以得到：
+![redux-devtools](../.vuepress/public/img/redux-2.png)
+
 
