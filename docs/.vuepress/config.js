@@ -1,6 +1,6 @@
 module.exports = {
   title: 'hbbaly',
-  description: '前端知识，vue，react，webpack',
+  description: '前端知识，vue，react，webpack ts',
   head: [
     ['link', { rel: 'icon', href: 'https://avatars1.githubusercontent.com/u/34227573?s=460&v=4' }]
   ],
@@ -25,6 +25,7 @@ module.exports = {
       { text: 'Vue', link:'/vue/vue'},
       { text: 'React',link:'/react/react'},
       { text: 'NodeJs',link:'/nodeJs/nodeJs'},
+      { text: 'TypeScript',link:'/typescript/base'},
       { text: 'Python',link:'/python/python'},
       { text: 'Tools',link:'/tools/markdown'},
     ],
@@ -33,6 +34,7 @@ module.exports = {
       '/react/':getReactSidebar(),
       '/nodeJs/':getNodeSidebar(),
       '/tools/':getToolSidebar(),
+      '/typescript/':getTypescriptSidebar(),
       '/python/':getPythonSidebar()
     },
     serviceWorker: {
@@ -74,6 +76,15 @@ function getVueSidebar () {
         ]
       }]
 }
+function getTypescriptSidebar () {
+  return [{
+    title: 'TypeScript',
+    collapsable: false,
+    children: [
+      'base'
+    ]
+  }]
+}
 function getReactSidebar () {
   return [{
     title: 'React知识',
@@ -85,7 +96,6 @@ function getReactSidebar () {
     ]
   }]
 }
-
 function getToolSidebar () {
   return [{
     title: 'tools',
