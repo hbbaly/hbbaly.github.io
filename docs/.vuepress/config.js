@@ -81,7 +81,8 @@ function getTypescriptSidebar () {
     title: 'TypeScript',
     collapsable: false,
     children: [
-      'base'
+      'base',
+      'interfaces'
     ]
   }]
 }
