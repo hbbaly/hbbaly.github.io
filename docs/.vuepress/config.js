@@ -82,7 +82,8 @@ function getTypescriptSidebar () {
     collapsable: false,
     children: [
       'base',
-      'interfaces'
+      'interfaces',
+      'class'
     ]
   }]
 }
