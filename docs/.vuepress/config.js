@@ -83,7 +83,8 @@ function getTypescriptSidebar () {
     children: [
       'base',
       'interfaces',
-      'class'
+      'class',
+      'function'
     ]
   }]
 }
