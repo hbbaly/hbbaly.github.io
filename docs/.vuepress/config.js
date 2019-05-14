@@ -84,7 +84,8 @@ function getTypescriptSidebar () {
       'base',
       'interfaces',
       'class',
-      'function'
+      'function',
+      'generics'
     ]
   }]
 }
