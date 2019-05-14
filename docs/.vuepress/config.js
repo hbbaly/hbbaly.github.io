@@ -85,7 +85,8 @@ function getTypescriptSidebar () {
       'interfaces',
       'class',
       'function',
-      'generics'
+      'generics',
+      'typeInference'
     ]
   }]
 }
