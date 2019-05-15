@@ -86,7 +86,8 @@ function getTypescriptSidebar () {
       'class',
       'function',
       'generics',
-      'typeInference'
+      'typeInference',
+      'advanceTypes'
     ]
   }]
 }
