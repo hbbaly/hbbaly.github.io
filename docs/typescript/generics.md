@@ -163,3 +163,4 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
 ```js
 loggingIdentity({length: 10, value: 3});
 ```
+
