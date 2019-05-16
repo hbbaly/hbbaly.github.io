@@ -1,9 +1,9 @@
 # 基础类型
-  TypeScript支持与JavaScript几乎相同的数据类型，此外还提供了实用的枚举类型方便我们使用。
+  `TypeScript`支持与`JavaScript`几乎相同的数据类型，此外还提供了实用的枚举类型方便我们使用。
 
 ## 布尔值 boolean
 
-最基本的数据类型就是简单的true/false值。
+最基本的数据类型就是简单的`true/false`值。
 ```js
 let isDone: boolean = false
 ```
@@ -14,7 +14,7 @@ let isDone: boolean = false
 ***TypeScript里的所有数字都是浮点数。***
 :::
 
- 除了支持十进制和十六进制字面量，TypeScript还支持ECMAScript 2015中引入的二进制和八进制字面量。
+ 除了支持十进制和十六进制字面量，`TypeScript`还支持`ECMAScript 2015`中引入的二进制和八进制字面量。
 
  ```js
 let decLiteral: number = 6;
@@ -25,7 +25,7 @@ let octalLiteral: number = 0o744;
 
 ## 字符串
 
-可以使用双引号（ "）或单引号（'）表示字符串
+可以使用双引号（ `"`）或单引号（`'`）表示字符串
 
 ```js
 let name: string = "bob";
@@ -52,7 +52,7 @@ let list: number[] = [1, 2, 3]
 let list: Array<number> = [1, 2, 3]
 ```
 
-## 元组 Tuple
+## 元组 `Tuple`
 
 元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。
 
@@ -72,7 +72,7 @@ console.log(x[1].substr(1)); // Error, 'number' does not have 'substr'
 
 `3.1及之后的版本不能访问, 之前的版本不报错`
 
-3.1版本之后, Tuple 的定义已经变成了有限制长度的数组,不能进行越界访问。
+3.1版本之后, `Tuple` 的定义已经变成了有限制长度的数组,不能进行越界访问。
 但是能进行例如 `push` 的操作, 但是不能访问超出边界，即使push了，边界没有变的。
 ```js
 x.push('hbb')  // ['hello', 10, 'hbb']
@@ -82,7 +82,7 @@ x[2]  // Tuple type '[string, number]' of length '2' has no element at index '2'
 
 
 ## 枚举
- enum类型是对JavaScript标准数据类型的一个补充。 像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
+ `enum`类型是对`JavaScript`标准数据类型的一个补充。 像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
 
  ```js
 enum Color {Red, Green, Blue}
@@ -110,7 +110,7 @@ let colorName: string = Color[2]
 console.log(colorName)  // 显示'Green'因为上面代码里它的值是2
 ```
 
-## Any
+## `Any`
 
 避免ts进行类型检查。
 
@@ -129,7 +129,7 @@ let prettySure: Object = 4
 prettySure.toFixed() // Error: Property 'toFixed' doesn't exist on type 'Object'.
 ```
 
-当你只知道一部分数据的类型时，any类型也是有用的。
+当你只知道一部分数据的类型时，`any`类型也是有用的。
 
 ```js
 let list: any[] = [1, true, "free"]
@@ -137,11 +137,11 @@ let list: any[] = [1, true, "free"]
 list[1] = 100
 ```
 
-## Void
+## `Void`
 
-void类型像是与any类型相反，它表示没有任何类型。
+`void`类型像是与`any`类型相反，它表示没有任何类型。
 
-当一个函数没有返回值时，你通常会见到其返回值类型是 void
+当一个函数没有返回值时，你通常会见到其返回值类型是 `void`
 
 ```js
 function warnUser(): void {
@@ -149,15 +149,15 @@ function warnUser(): void {
 }
 ```
 
-声明一个void类型的变量没有什么大用，因为你只能为它赋予undefined和null
+声明一个void类型的变量没有什么大用，因为你只能为它赋予`undefined`和`null`
 
 ```js
 let unusable: void = undefined
 ```
 
-## Null 和 Undefined
+## `Null` 和 `Undefined`
 
-undefined和null两者各自有自己的类型分别叫做undefined和null。
+`undefined`和`null`两者各自有自己的类型分别叫做`undefined`和`null`。
 
 ```js
 let u: undefined = undefined
@@ -176,11 +176,11 @@ u = 1
 tsc index.ts --strictNullChecks
 ```
 
-## Never
+## `Never`
 
-never类型表示的是那些永不存在的值的类型。 例如， never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型； 变量也可能是 never类型，当它们被永不为真的类型保护所约束时。
+`never`类型表示的是那些永不存在的值的类型。 例如， `never`类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型； 变量也可能是 `never`类型，当它们被永不为真的类型保护所约束时。
 
-ever类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是never的子类型或可以赋值给never类型（除了never本身之外）。 即使 any也不可以赋值给never。
+`never`类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是`never`的子类型或可以赋值给`never`类型（除了never本身之外）。 即使 `any`也不可以赋值给`never`。
 
 ```js
 // 返回never的函数必须存在无法达到的终点
@@ -200,9 +200,9 @@ function infiniteLoop(): never {
 }
 ```
 
-## Object
+## `Object`
 
-object表示非原始类型，也就是除number，string，boolean，symbol，null或undefined之外的类型。
+`object`表示非原始类型，也就是除`number，string，boolean，symbol，null或undefined`之外的类型。
 
 ```js
 declare function create(o: object | null): void;
@@ -218,7 +218,7 @@ create(undefined) // Error
 
 ## 类型断言
 
-类型断言好比其它语言里的类型转换，但是不进行特殊的数据检查和解构。 它没有运行时的影响，只是在编译阶段起作用。 TypeScript会假设你，程序员，已经进行了必须的检查。
+类型断言好比其它语言里的类型转换，但是不进行特殊的数据检查和解构。 它没有运行时的影响，只是在编译阶段起作用。 `TypeScript`会假设你，程序员，已经进行了必须的检查。
 
 类型断言有两种形式。 其一是“尖括号”语法
 
@@ -236,4 +236,4 @@ let someValue: any = "this is a string"
 let strLength: number = (someValue as string).length
 ```
 
-**在TypeScript里使用JSX时，只有 as语法断言是被允许的。**
+**在`TypeScript`里使用`JSX`时，只有 `as`语法断言是被允许的。**

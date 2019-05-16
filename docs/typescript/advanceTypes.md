@@ -277,3 +277,180 @@ c.b = 13;
 c.b = undefined; // ok
 c.b = null; // error, 'null' is not assignable to 'number | undefined'
 ```
+
+
+## 类型保护和类型断言
+
+由于可以为`null`的类型是通过联合类型实现，那么你需要使用类型保护来去除 `null`。
+
+```js
+function f(sn: string | null): string {
+    return sn || "default";
+}
+```
+
+如果编译器不能够去除 `null`或 `undefined`，你可以使用类型断言手动去除。 语法是添加 !后缀：
+```js
+function broken(name: string | null): string {
+  function postfix(epithet: string) {
+    return name.charAt(0) + '.  the ' + epithet; // error, 'name' is possibly null
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+
+function fixed(name: string | null): string {
+  function postfix(epithet: string) {
+    return name!.charAt(0) + '.  the ' + epithet; // ok
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+```
+
+`name!`从类型里去除了 `null`和 `undefined`。
+
+
+## 类型别名
+
+类型别名会给一个类型起个新名字。 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
+
+```js
+type Name = string;
+type NameResolver = () => string;
+type NameOrResolver = Name | NameResolver;
+function getName(n: NameOrResolver): Name {
+    if (typeof n === 'string') {
+        return n;
+    }
+    else {
+        return n();
+    }
+}
+```
+
+起别名不会新建一个类型 - 它创建了一个新 名字来引用那个类型。
+
+同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入
+
+```js
+type Container<T> = { value: T };
+```
+
+类型别名来在属性里引用自己
+```js
+type Tree<T> = {
+    value: T;
+    left: Tree<T>;
+    right: Tree<T>;
+}
+```
+
+类型别名不能出现在声明右侧的任何地方
+
+```js
+type Yikes = Array<Yikes>; // error
+```
+
+## 接口 vs 类型别名
+
+类型别名可以像接口一样；然而，仍有一些细微差别,
+**`其一，接口创建了一个新的名字，可以在其它任何地方使用。 类型别名并不创建新名字—比如，错误信息就不会使用别名。`**
+
+```js
+type Alias = { num: number }
+interface Interface {
+    num: number;
+}
+declare function aliased(arg: Alias): Alias;
+declare function interfaced(arg: Interface): Interface;
+```
+
+在编译器中将鼠标悬停在 `interfaced`上，显示它返回的是 `Interface`，但悬停在 `aliased`上时，显示的却是对象字面量类型。
+
+**`另一个重要区别是类型别名不能被 extends和 implements（自己也不能 extends和 implements其它类型）。 因为 软件中的对象应该对于扩展是开放的，但是对于修改是封闭的，你应该尽量去使用接口代替类型别名。`**
+
+### 另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
+
+### 字符串字面量类型
+
+字符串字面量类型允许你指定字符串必须的固定值。 在实际应用中，字符串字面量类型可以与联合类型，类型保护和类型别名很好的配合。
+
+
+```js
+type Easing = "ease-in" | "ease-out" | "ease-in-out";
+class UIElement {
+    animate(dx: number, dy: number, easing: Easing) {
+        if (easing === "ease-in") {
+            // ...
+        }
+        else if (easing === "ease-out") {
+        }
+        else if (easing === "ease-in-out") {
+        }
+        else {
+            // error! should not pass null or undefined.
+        }
+    }
+}
+
+let button = new UIElement();
+button.animate(0, 0, "ease-in");
+button.animate(0, 0, "uneasy"); // error: "uneasy" is not allowed here
+```
+
+你只能从三种允许的字符中选择其一来做为参数传递，传入其它值则会产生错误。
+
+### 数字字面量类型
+
+```js
+function rollDie(): 1 | 2 | 3 | 4 | 5 | 6 {
+    // ...
+}
+```
+
+### 可辨识联合
+
+
+可辨识联合在函数式编程很有用处。 一些语言会自动地为你辨识联合；而TypeScript则基于已有的JavaScript模式。 它具有3个要素：
+1.具有普通的单例类型属性— 可辨识的特征。
+2.一个类型别名包含了那些类型的联合— 联合。
+3.此属性上的类型保护。
+
+```js
+interface Square {
+    kind: "square";
+    size: number;
+}
+interface Rectangle {
+    kind: "rectangle";
+    width: number;
+    height: number;
+}
+interface Circle {
+    kind: "circle";
+    radius: number;
+}
+```
+首先我们声明了将要联合的接口。 每个接口都有 `kind`属性但有不同的字符串字面量类型。 `kind`属性称做 可辨识的特征或 标签。 其它的属性则特定于各个接口。
+
+
+把它们联合到一起：
+
+```js
+type Shape = Square | Rectangle | Circle;
+```
+
+使用可辨识联合:
+
+```js
+function area(s: Shape) {
+    switch (s.kind) {
+        case "square": return s.size * s.size;
+        case "rectangle": return s.height * s.width;
+        case "circle": return Math.PI * s.radius ** 2;
+    }
+}
+```
+
+
