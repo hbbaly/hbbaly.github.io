@@ -456,5 +456,79 @@ function area(s: Shape) {
     }
 }
 ```
+## 索引类型
 
+，通过 索引类型查询和 索引访问操作符：
+
+```js
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map(n => o[n]);
+}
+
+interface Person {
+    name: string;
+    age: number;
+}
+let person: Person = {
+    name: 'Jarid',
+    age: 35
+};
+let strings: string[] = pluck(person, ['name']); // ok, string[]
+```
+
+编译器会检查 `name`是否真的是 `Person`的一个属性。 本例还引入了几个新的类型操作符。 首先是 `keyof T`， 索引类型查询操作符。 对于任何类型 `T`， `keyof T`的结果为 `T`上已知的公共属性名的联合。 例如：
+
+```js
+let personProps: keyof Person; // 'name' | 'age'
+```
+
+`keyof Person`是完全可以与 `'name' | 'age'`互相替换的。 不同的是如果你添加了其它的属性到 `Person`，例如 `address: string`，那么 `keyof Person`会自动变为 `'name' | 'age' | 'address'`。 
+
+第二个操作符是 `T[K]`， 索引访问操作符。 在这里，类型语法反映了表达式语法。 这意味着 `person['name']`具有类型 `Person['name']` — 在我们的例子里则为 `string`类型。 然而，就像索引类型查询一样，你可以在普通的上下文里使用 T[K]，这正是它的强大所在。 你只要确保类型变量 K extends keyof T就可以了。
+
+
+`keyof和 T[K]`与字符串索引签名进行交互。 如果你有一个带有字符串索引签名的类型，那么 `keyof T`会是 `string`。 并且` T[string]`为索引签名的类型：
+
+```js
+interface Map<T> {
+    [key: string]: T;
+}
+let keys: keyof Map<number>; // string
+let value: Map<number>['foo']; // number
+```
+
+## 映射类型
+
+
+一个常见的任务是将一个已知的类型每个属性都变为可选的：
+
+```js
+interface PersonPartial {
+  name?: string;
+  age?: number;
+}
+```
+
+或者我们想要一个只读版本：
+
+```js
+interface PersonReadonly {
+  readonly name: string;
+  readonly age: number;
+}
+```
+TypeScript提供了从旧类型中创建新类型的一种方式 — 映射类型。 在映射类型里，新类型以相同的形式去转换旧类型里每个属性。 例如，你可以令每个属性成为 readonly类型或可选的。 下面是一些例子：
+
+```js
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+}
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+```
+```js
+type PersonPartial = Partial<Person>;
+type ReadonlyPerson = Readonly<Person>;
+```
 
