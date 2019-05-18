@@ -88,7 +88,8 @@ function getTypescriptSidebar () {
       'generics',
       'typeInference',
       'advanceTypes',
-      'modules'
+      'modules',
+      'namespaces'
     ]
   }]
 }

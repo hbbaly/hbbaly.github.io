@@ -193,4 +193,116 @@ declare module "path" {
 现在我们可以`/// <reference> node.d.ts`并且使用`import url = require("url")`;或`import * as URL from "url`"加载模块。
 
 ```js
+/// <reference path="node.d.ts"/>
+import * as URL from "url";
+let myUrl = URL.parse("http://www.typescriptlang.org");
 ```
+## 外部模块简写
+
+假如你不想在使用一个新模块之前花时间去编写声明，你可以采用声明的简写形式以便能够快速使用它。
+
+`declarations.d.ts`
+
+```js
+declare module "hot-new-module";
+```
+
+简写模块里所有导出的类型将是`any`。
+
+```js
+import x, {y} from "hot-new-module";
+x(y);
+```
+
+## 模块声明通配符
+
+某些模块加载器如`SystemJS` 和 `AMD`支持导入非`JavaScript`内容。 它们通常会使用一个前缀或后缀来表示特殊的加载语法。 模块声明通配符可以用来表示这些情况。
+
+```js
+declare module "*!text" {
+    const content: string;
+    export default content;
+}
+// Some do it the other way around.
+declare module "json!*" {
+    const value: any;
+    export default value;
+}
+```
+现在你可以就导入匹配"*!text"或"json!*"的内容
+```js
+import fileContent from "./xyz.txt!text";
+import data from "json!http://example.com/data.json";
+console.log(data, fileContent);
+```
+
+
+## 创建模块结构指导
+
+### 尽可能地在顶层导出
+
+用户应该更容易地使用你模块导出的内容。 嵌套层次过多会变得难以处理, 从你的模块中导出一个命名空间就是一个增加嵌套的例子。 虽然命名空间有时候有它们的用处，在使用模块的时候它们额外地增加了一层。 这对用户来说是很不便的并且通常是多余的。
+
+导出类的静态方法也有同样的问题 - 这个类本身就增加了一层嵌套。 除非它能方便表述或便于清晰使用，否则请考虑直接导出一个辅助方法。
+
+如果仅导出单个 `class` 或 `function`，使用 `export default`
+
+`MyClass.ts`
+
+```js
+export default class SomeType {
+  constructor() { ... }
+}
+```
+`MyFunc.ts`
+```js
+export default function getThing() { return 'thing'; }
+```
+
+`Consumer.ts`
+
+```js
+import t from "./MyClass";
+import f from "./MyFunc";
+let x = new t();
+console.log(f());
+```
+
+对用户来说这是最理想的。他们可以随意命名导入模块的类型（本例为t）并且不需要多余的（.）来找到相关对象。
+
+### 如果要导出多个对象，把它们放在顶层里导出
+
+`MyThings.ts`
+
+```js
+export class SomeType { /* ... */ }
+export function someFunc() { /* ... */ }
+```
+当导入的时候：**明确地列出导入的名字**
+
+`Consumer.ts`
+
+```js
+import { SomeType, someFunc } from "./MyThings";
+let x = new SomeType();
+let y = someFunc();
+```
+
+### 使用命名空间导入模式当你要导出大量内容的时候
+
+`MyLargeModule.ts`
+
+```js
+export class Dog { ... }
+export class Cat { ... }
+export class Tree { ... }
+export class Flower { ... }
+```
+
+`Consumer.ts`
+
+```js
+import * as myLargeModule from "./MyLargeModule.ts";
+let x = new myLargeModule.Dog();
+```
+
