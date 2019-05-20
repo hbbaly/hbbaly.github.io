@@ -89,7 +89,9 @@ function getTypescriptSidebar () {
       'typeInference',
       'advanceTypes',
       'modules',
-      'namespaces'
+      'namespaces',
+      'declarationMerging',
+      'decorators'
     ]
   }]
 }
