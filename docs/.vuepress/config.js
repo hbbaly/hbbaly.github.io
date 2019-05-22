@@ -91,7 +91,8 @@ function getTypescriptSidebar () {
       'modules',
       'namespaces',
       'declarationMerging',
-      'decorators'
+      'decorators',
+      'tsconfig'
     ]
   }]
 }
