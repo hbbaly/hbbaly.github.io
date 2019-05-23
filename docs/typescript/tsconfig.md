@@ -134,8 +134,108 @@
 要想支持这个特性需要`Visual Studio 2015`， `TypeScript1.8.4`以上并且安装`atom-typescript`插件。
 
 
+## 错误信息列表
+
+[错误信息列表](https://www.tslang.cn/docs/handbook/error.html '错误信息列表')
+## 编译选项
 
 
+[编译选项](https://www.tslang.cn/docs/handbook/compiler-options.html '编译选项')
 
+## 项目引用
+
+工程引用是`TypeScript 3.0`的新特性，它支持将`TypeScript`程序的结构分割成更小的组成部分。
+
+这样可以改善构建时间，强制在逻辑上对组件进行分离，更好地组织你的代码。
+
+`TypeScript 3.0`还引入了`tsc`的一种新模式，即`--build`标记，它与工程引用协同工作可以加速`TypeScript`的构建。
+
+### 何为工程引用？
+
+tsconfig.json增加了一个新的顶层属性references。它是一个对象的数组，指明要引用的工程：
+
+```js{6}
+{
+    "compilerOptions": {
+        // The usual
+    },
+    "references": [
+        { "path": "../src" }
+    ]
+}
+```
+
+每个引用的`path`属性都可以指向到包含`tsconfig.json`文件的目录，或者直接指向到配置文件本身（名字是任意的）。
+
+当你引用一个工程时，会发生下面的事：
+
+- 导入引用工程中的模块实际加载的是它输出的声明文件（.d.ts）。
+- 如果引用的工程生成一个`outFile`，那么这个输出文件的.d.ts文件里的声明对于当前工程是可见的。
+- 构建模式（后文）会根据需要自动地构建引用的工程。
+
+当你拆分成多个工程后，会显著地加速类型检查和编译，减少编辑器的内存占用，还会改善程序在逻辑上进行分组。
+
+### composite
+
+引用的工程必须启用新的`composite`设置。 这个选项用于帮助`TypeScript`快速确定引用工程的输出文件位置。 若启用`composite`标记则会发生如下变动：
+
+- 对于`rootDir`设置，如果没有被显式指定，默认为包含`tsconfig`文件的目录
+- 所有的实现文件必须匹配到某个`include`模式或在`files`数组里列出。如果违反了这个限制，`tsc`会提示你哪些文件未指定。
+- 必须开启`declaration`选项。
+
+### 带prepend的outFile
+
+你可以在引用中使用`prepend`选项来启用前置某个依赖的输出：
+
+```js
+   "references": [
+        { "path": "../utils", "prepend": true }
+    ]
+```
+
+前置工程会将工程的输出添加到当前工程的输出之前。 它对`.js`文件和`.d.ts`文件都有效，`source map`文件也同样会正确地生成。
+
+`tsc`永远只会使用磁盘上已经存在的文件来进行这个操作，因此你可能会创建出一个无法生成正确输出文件的工程，因为有些工程的输出可能会在结果文件中重覆了多次。 例如：
+
+```js
+
+   A
+  ^ ^
+ /   \
+B     C
+ ^   ^
+  \ /
+   D
+```
+
+这种情况下，不能前置引用，因为在`D`的最终输出里会有两份`A`存在 - 这可能会发生未知错误。
+
+## TypeScript构建模式
+
+`tsc -b`命令行
+
+tsc不会自动地构建依赖项，除非启用了--build选项。
+
+运行`tsc --build`（简写`tsc -b`）会执行如下操作：
+
+- 找到所有引用的工程
+- 检查它们是否为最新版本
+- 按顺序构建非最新版本的工程
+
+```js
+ > tsc -b                                # Build the tsconfig.json in the current directory
+ > tsc -b src                            # Build src/tsconfig.json
+ > tsc -b foo/release.tsconfig.json bar  # Build foo/release.tsconfig.json and bar/tsconfig.json
+```
+
+你可以指令任意数量的配置文件：不需要担心命令行上指定的文件顺序 - `tsc`会根据需要重新进行排序，被依赖的项会优先构建。
+
+`tsc -b`还支持其它一些选项：
+
+`--verbose`：打印详细的日志（可以与其它标记一起使用）
+`--dry`: 显示将要执行的操作但是并不真正进行这些操作
+`--clean`: 删除指定工程的输出（可以与`--dry`一起使用）
+`--force`: 把所有工程当作非最新版本对待
+`--watch`: 观察模式（可以与`--verbose`一起使用）
 
 
