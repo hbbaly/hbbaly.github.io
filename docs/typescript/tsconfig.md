@@ -238,4 +238,58 @@ tsc不会自动地构建依赖项，除非启用了--build选项。
 `--force`: 把所有工程当作非最新版本对待
 `--watch`: 观察模式（可以与`--verbose`一起使用）
 
+## 构建工具集成
 
+### Gulp
+
+安装
+
+```js
+npm install gulp-typescript
+```
+
+基本`gulpfile.js`
+```js
+var gulp = require("gulp");
+var ts = require("gulp-typescript");
+
+gulp.task("default", function () {
+    var tsResult = gulp.src("src/*.ts")
+        .pipe(ts({
+              noImplicitAny: true,
+              out: "output.js"
+        }));
+    return tsResult.js.pipe(gulp.dest('built/local'));
+});
+```
+
+更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm,'TypeScriptSamples/jspm')
+
+### Webpack
+
+安装
+
+```js
+npm install ts-loader --save-dev
+```
+
+基本`webpack.config.js`
+
+```js
+module.exports = {
+    entry: "./src/index.tsx",
+    output: {
+        filename: "bundle.js"
+    },
+    resolve: {
+        // Add '.ts' and '.tsx' as a resolvable extension.
+        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    },
+    module: {
+        loaders: [
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, loader: "ts-loader" }
+        ]
+    }
+};
+```
