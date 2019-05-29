@@ -61,7 +61,8 @@ function getNodeSidebar () {
     children: [
       'nodeJs',
       'express',
-      'koa2'
+      'koa2',
+      'koa-example'
     ]
   }]
 }
