@@ -12,7 +12,7 @@ const main = (ctx) => {
 app.use(main)
 app.listen(3000)   // app.listen(3000)  是 http.createServer(app.callback()).listen(3000); 的语法糖
 ```
-[koa2初体验代码](https://github.com/hbbaly/koa2-learn/tree/80ba15988330df0c2c7bb858bc34193ac49d230b 'koa初体验')
+[本章源代码](https://github.com/hbbaly/koa2-learn/tree/80ba15988330df0c2c7bb858bc34193ac49d230b '本章源代码')
 
 ## koa-generator构建目录
 
@@ -38,7 +38,7 @@ npm install
 npm  start
 ```
 
-[koa-generator构建目录代码](https://github.com/hbbaly/koa2-learn/tree/09182ed03975b800fe99064e3753e8a4c4b9a915/demo/koa-learn 'koa-generator构建目录代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/tree/09182ed03975b800fe99064e3753e8a4c4b9a915/demo/koa-learn '本章源代码')
 
 ## 自定义中间件
 
@@ -106,7 +106,7 @@ app.on('error', (err, ctx) => {
 
 module.exports = app
 ```
-[自定义中间件代码](https://github.com/hbbaly/koa2-learn/tree/2f837ea0700151c6b02cf8f5386d8e9143a945c3/demo/koa-learn '自定义中间件代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/tree/2f837ea0700151c6b02cf8f5386d8e9143a945c3/demo/koa-learn '本章源代码')
 ## 中间件执行顺序
 
 <h2 id="middleware"></h2>
@@ -142,7 +142,7 @@ app.listen(3000)
 ```
 ![中间件执行顺序](../.vuepress/public/img/koa-1.png  '中间件执行顺序')
 
-[中间件执行顺序代码](https://github.com/hbbaly/koa2-learn/blob/37472e0d14e433ff5a6e86003aecaa43e3a20385/example/demo/demo7.js '中间件执行顺序代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/37472e0d14e433ff5a6e86003aecaa43e3a20385/example/demo/demo7.js '本章源代码')
 
 ## koa-router基本使用方法
 
@@ -186,7 +186,89 @@ app.listen(3000)
 `about page`
 ![koa-router](../.vuepress/public/img/koa-4.png  'koa-router')
 
-[koa-router代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo5.js 'koa-router')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo5.js '本章源代码')
+
+## 路由前缀
+
+```js
+const router = new Router({
+   prefix:'/h5'
+})
+```
+
+`app.js`
+
+```js
+const Koa = require('koa')
+const Router = require('koa-router')
+const app = new Koa()
+const router = new Router({
+  prefix:'/h5'
+})
+router.get('/',(ctx)=>{
+  ctx.body = ctx.url     //相当于在localhost:3000/h5 为首页
+})
+
+  app.use(router.routes())
+  app.listen(3000)
+```
+
+本地打开`localhost:3000/h5`, 这个时默认的首页
+
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo15.js '本章源代码')
+## 路由层级
+
+`app.js`
+
+```js
+ // 路由层级 
+
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router');
+const user = new Router()
+
+
+user.get('/index',ctx => {
+  ctx.body = '个人中心'
+})
+user.get('/pay', ctx => {
+  ctx.body = '支付页面'
+})
+
+
+const appraise = new Router()
+appraise.get('/index',ctx => {
+  ctx.body = '评价页面'
+})
+appraise.get('/detail',ctx => {
+  ctx.body = '评价详情页面'
+})
+
+
+// //装载所有子路由
+const router = new Router()
+router.use('/user',user.routes(),user.allowedMethods())
+router.use('/appraise',appraise.routes(),appraise.allowedMethods())
+
+
+//加载路由中间件
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+app.listen(3000);
+```
+`user/index`
+![user/index](../.vuepress/public/img/koa-11.png  'user/index')
+`user/pay`
+![user/pay](../.vuepress/public/img/koa-12.png  'user/pay')
+`appraise/index`
+![appraise/index](../.vuepress/public/img/koa-13.png  'appraise/index')
+`appraise/detail`
+![appraise/detail](../.vuepress/public/img/koa-14.png  'appraise/detail')
+
+
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo16.js '本章源代码')
 
 ## koa-compose
 
@@ -228,7 +310,7 @@ app.listen(3000)
 
 可以参考[中间件执行顺序](#middleware)对比有什么不同
 
-[koa-compose代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo9.js 'koa-compose')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo9.js '本章源代码')
 
 ## koa-static
 
@@ -253,7 +335,7 @@ app.listen(3000)
 
 ![loading](../.vuepress/public/img/koa-5.png  'loading')
 
-[源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo10.js '源代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo10.js '本章源代码')
 
 ## get请求获取参数
 
@@ -294,7 +376,7 @@ app.listen(3000)
 
 ![loading](../.vuepress/public/img/koa-6.png  'loading')
 
-[源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo11.js '源代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo11.js '本章源代码')
 
 ## post请求
 安装`koa-bodyparser`
@@ -343,7 +425,7 @@ app.listen(3000)
 
 ![post](../.vuepress/public/img/koa-8.png  'post')
 
-[源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo12.js '源代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo12.js '本章源代码')
 
 ## 监听报错
 
@@ -396,7 +478,7 @@ app.listen(3000)
 ![wrong](../.vuepress/public/img/koa-10.png  'wrong')
 
 
-[源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo13.js '源代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo13.js '本章源代码')
 
 ## cookie 操作
 
@@ -447,4 +529,4 @@ app.listen(3000)
   app.listen(3000)
 ```
 
-[源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo14.js '源代码')
+[本章源代码](https://github.com/hbbaly/koa2-learn/blob/master/example/demo/demo14.js '本章源代码')
