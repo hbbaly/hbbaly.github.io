@@ -430,3 +430,344 @@ ctx.body = await db.find('something');
 #### request.is(types...)
 
 检查传入请求是否包含 `Content-Type` 头字段， 并且包含任意的 `mime type`。 如果没有请求主体，返回 `null`。 如果没有内容类型，或者匹配失败，则返回 `false`。 反之则返回匹配的 `content-type`。
+
+```js
+// 使用 Content-Type: text/html; charset=utf-8
+ctx.is('html'); // => 'html'
+ctx.is('text/html'); // => 'text/html'
+ctx.is('text/*', 'text/html'); // => 'text/html'
+
+// 当 Content-Type 是 application/json 时
+ctx.is('json', 'urlencoded'); // => 'json'
+ctx.is('application/json'); // => 'application/json'
+ctx.is('html', 'application/*'); // => 'application/json'
+
+ctx.is('html'); // => false
+```
+
+例如，如果要确保仅将图像发送到给定路由：
+
+```js
+if (ctx.is('image/*')) {
+  // 处理
+} else {
+  ctx.throw(415, 'images only!');
+}
+```
+
+#### 内容协商
+
+`Koa`的 `request` 对象包括由 `accepts` 和 `negotiator` 提供的有用的内容协商实体。
+
+这些实用程序是：
+
+- request.accepts(types)
+- request.acceptsEncodings(types)
+- request.acceptsCharsets(charsets)
+- request.acceptsLanguages(langs)
+如果没有提供类型，则返回 所有 可接受的类型。
+
+如果提供多种类型，将返回最佳匹配。 如果没有找到匹配项，则返回一个`false`，你应该向客户端发送一个`406 "Not Acceptable"` 响应。
+
+如果接收到任何类型的接收头，则会返回第一个类型。 因此，你提供的类型的顺序很重要。
+
+#### request.accepts(types)
+
+检查给定的 `type(s)` 是否可以接受，如果 `true`，返回最佳匹配，否则为 `false`。 `type` 值可能是一个或多个 mime 类型的字符串，如 application/json，扩展名称如 json，或数组 ["json", "html", "text/plain"]。
+
+```js
+// Accept: text/html
+ctx.accepts('html');
+// => "html"
+
+// Accept: text/*, application/json
+ctx.accepts('html');
+// => "html"
+ctx.accepts('text/html');
+// => "text/html"
+ctx.accepts('json', 'text');
+// => "json"
+ctx.accepts('application/json');
+// => "application/json"
+
+// Accept: text/*, application/json
+ctx.accepts('image/png');
+ctx.accepts('png');
+// => false
+
+// Accept: text/*;q=.5, application/json
+ctx.accepts(['html', 'json']);
+ctx.accepts('html', 'json');
+// => "json"
+
+// No Accept header
+ctx.accepts('html', 'json');
+// => "html"
+ctx.accepts('json', 'html');
+// => "json"
+```
+你可以根据需要多次调用 ctx.accepts()，或使用 switch：
+```js
+switch (ctx.accepts('json', 'html', 'text')) {
+  case 'json': break;
+  case 'html': break;
+  case 'text': break;
+  default: ctx.throw(406, 'json, html, or text only');
+}
+```
+
+#### request.acceptsEncodings(encodings)
+
+检查 `encodings` 是否可以接受，返回最佳匹配为 `true`，否则为 `false`。 请注意，您应该将`identity` 作为编码之一！
+```js
+// Accept-Encoding: gzip
+ctx.acceptsEncodings('gzip', 'deflate', 'identity');
+// => "gzip"
+
+ctx.acceptsEncodings(['gzip', 'deflate', 'identity']);
+// => "gzip"
+```
+当没有给出参数时，所有接受的编码将作为数组返回：
+```js
+// Accept-Encoding: gzip, deflate
+ctx.acceptsEncodings();
+// => ["gzip", "deflate", "identity"]
+```
+请注意，如果客户端显式地发送 `identity;q=0`，那么 `identity` 编码（这意味着没有编码）可能是不可接受的。 虽然这是一个边缘的情况，你仍然应该处理这种方法返回 `false` 的情况。
+
+
+#### request.acceptsCharsets(charsets)
+
+检查 `charsets` 是否可以接受，在 `true` 时返回最佳匹配，否则为 `false`。
+
+```js
+// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+ctx.acceptsCharsets('utf-8', 'utf-7');
+// => "utf-8"
+
+ctx.acceptsCharsets(['utf-7', 'utf-8']);
+// => "utf-8"
+```
+
+当没有参数被赋予所有被接受的字符集将作为数组返回：
+```js
+// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+ctx.acceptsCharsets();
+// => ["utf-8", "utf-7", "iso-8859-1"]
+```
+#### request.acceptsLanguages(langs)
+
+检查 `langs` 是否可以接受，如果为 `true`，返回最佳匹配，否则为 false。
+```js
+// Accept-Language: en;q=0.8, es, pt
+ctx.acceptsLanguages('es', 'en');
+// => "es"
+
+ctx.acceptsLanguages(['en', 'es']);
+// => "es"
+```
+当没有参数被赋予所有接受的语言将作为数组返回：
+```js
+// Accept-Language: en;q=0.8, es, pt
+ctx.acceptsLanguages();
+// => ["es", "pt", "en"]
+```
+
+#### request.idempotent
+检查请求是否是幂等的。
+
+#### request.socket
+返回请求套接字。
+
+#### request.get(field)
+返回请求标头。
+
+## 响应(Response)
+
+`Koa Response` 对象是在 `node` 的 `vanilla` 响应对象之上的抽象，提供了诸多对 `HTTP` 服务器开发有用的功能。
+
+### API
+
+#### response.header
+响应标头对象。
+
+#### response.headers
+响应标头对象。别名是 `response.header`
+
+#### response.socket
+请求套接字。
+
+#### response.status
+获取响应状态。默认情况下，`response.status` 设置为 `404` 而不是像 `node` 的 `res.statusCode` 那样默认为 `200`。
+
+#### response.status=
+
+通过数字代码设置响应状态
+
+#### response.message
+获取响应的状态消息. 默认情况下, `response.message `与 `response.status` 关联.
+
+#### response.message=
+将响应的状态消息设置为给定值。
+
+#### response.length=
+将响应的 `Content-Length` 设置为给定值。
+
+#### response.length
+以数字返回响应的 `Content-Length`，或者从`ctx.body`推导出来，或者`undefined`。
+
+#### response.body
+获取响应主体。
+
+#### response.body=
+将响应体设置为以下之一：
+
+- string 写入
+- Buffer 写入
+- Stream 管道
+- Object || Array JSON-字符串化
+- null 无内容响应
+如果 `response.status` 未被设置, `Koa` 将会自动设置状态为 `200` 或 `204`。
+
+`Koa` 没有防范作为响应体的所有内容 - 函数没有有意义地序列化，返回布尔值可能会根据您的应用程序而有意义。并且当错误生效时，它可能无法正常工作 错误的属性无法枚举。 我们建议在您的应用中添加中间件，以确定每个应用的正文类型。 示例中间件可能是：
+```js
+app.use(async (ctx, next) => {
+  await next()
+
+  ctx.assert.equal('object', typeof ctx, 500, '某些开发错误')
+})
+```
+
+#### String
+`Content-Type` 默认为 `text/html` 或 `text/plain`, 同时默认字符集是 `utf-8`。`Content-Length` 字段也是如此。
+
+#### Buffer
+`Content-Type` 默认为 `application/octet-stream`, 并且 `Content-Length` 字段也是如此。
+
+#### Stream
+`Content-Type` 默认为 `application/octet-stream`。
+
+每当流被设置为响应主体时，`.onerror` 作为侦听器自动添加到 `error` 事件中以捕获任何错误。此外，每当请求关闭（甚至过早）时，流都将被销毁。如果你不想要这两个功能，请勿直接将流设为主体。例如，当将主体设置为代理中的 HTTP 流时，你可能不想要这样做，因为它会破坏底层连接。
+
+参阅: https://github.com/koajs/koa/pull/612 获取更多信息。
+
+以下是流错误处理的示例，而不会自动破坏流：
+```js
+const PassThrough = require('stream').PassThrough;
+
+app.use(async ctx => {
+  ctx.body = someHTTPStream.on('error', ctx.onerror).pipe(PassThrough());
+});
+```
+#### Object
+`Content-Type` 默认为 `application/json`. 这包括普通的对象 `{ foo: 'bar' }` 和数组 `['foo', 'bar']`。
+
+#### response.get(field)
+
+```
+不区分大小写获取响应标头字段值 field。
+```js
+const etag = ctx.response.get('ETag');
+```
+
+#### response.set(field, value)
+设置响应标头 `field` 到 `value`:
+```js
+ctx.set('Cache-Control', 'no-cache');
+```
+#### response.append(field, value)
+
+用值 `val` 附加额外的标头 `field`。
+```js
+ctx.append('Link', '<http://127.0.0.1/>');
+```
+response.set(fields)
+
+用一个对象设置多个响应标头`fields`:
+```js
+ctx.set({
+  'Etag': '1234',
+  'Last-Modified': date
+});
+```
+这将委托给 `setHeader` ，它通过指定的键设置或更新标头，并且不重置整个标头。
+#### response.remove(field)
+删除标头 `field`。
+
+#### response.type
+获取响应 `Content-Type` 不含参数 `"charset"`。
+```js
+const ct = ctx.type;
+// => "image/png"
+```
+#### response.type=
+设置响应 `Content-Type` 通过 `mime` 字符串或文件扩展名。
+```js
+ctx.type = 'text/plain; charset=utf-8';
+ctx.type = 'image/png';
+ctx.type = '.png';
+ctx.type = 'png';
+```
+注意: 在适当的情况下为你选择 `charset`, 比如 `response.type = 'html'` 将默认是 `"utf-8"`. 如果你想覆盖 `charset`, 使用 `ctx.set('Content-Type', 'text/html')` 将响应头字段设置为直接值。
+
+#### response.is(types...)
+非常类似 `ctx.request.is()`. 检查响应类型是否是所提供的类型之一。这对于创建操纵响应的中间件特别有用。
+
+例如, 这是一个中间件，可以削减除流之外的所有HTML响应。
+```js
+const minify = require('html-minifier');
+
+app.use(async (ctx, next) => {
+  await next();
+
+  if (!ctx.response.is('html')) return;
+
+  let body = ctx.body;
+  if (!body || body.pipe) return;
+
+  if (Buffer.isBuffer(body)) body = body.toString();
+  ctx.body = minify(body);
+});
+```
+
+#### response.redirect(url, [alt])
+执行 `[302]` 重定向到 `url`.
+
+字符串 `“back”` 是特别提供`Referrer`支持的，当`Referrer`不存在时，使用 `alt` 或`“/”`。
+```js
+ctx.redirect('back');
+ctx.redirect('back', '/index.html');
+ctx.redirect('/login');
+ctx.redirect('http://google.com');
+```
+要更改 `“302”` 的默认状态，只需在该调用之前或之后分配状态。要变更主体请在此调用之后:
+```js
+ctx.status = 301;
+ctx.redirect('/cart');
+ctx.body = 'Redirecting to shopping cart';
+```
+
+#### response.attachment([filename], [options])
+将 `Content-Disposition` 设置为 “附件” 以指示客户端提示下载。(可选)指定下载的 `filename` 和部分 参数。
+
+#### response.headerSent
+检查是否已经发送了一个响应头。 用于查看客户端是否可能会收到错误通知。
+
+#### response.lastModified
+将 `Last-Modified` 标头返回为 `Date`, 如果存在。
+
+#### response.lastModified=
+将 `Last-Modified` 标头设置为适当的 `UTC` 字符串。您可以将其设置为 `Date` 或日期字符串。
+```js
+ctx.response.lastModified = new Date();
+```
+#### response.etag=
+设置包含 " 包裹的 `ETag` 响应， 请注意，没有相应的 `response.etag getter`。
+```js
+ctx.response.etag = crypto.createHash('md5').update(ctx.body).digest('hex');
+response.vary(field)
+```
+在 field 上变化。
+
+#### response.flushHeaders()
+刷新任何设置的标头，并开始主体。
