@@ -240,3 +240,193 @@ ctx.assert(ctx.state.user, 401, 'User not found. Please login!');
 
 请注意，`Koa` 不支持使用此功能。这可能会破坏 `Koa` 中间件和 `Koa` 本身的预期功能。使用这个属性被认为是一个 `hack`，只是便于那些希望在 `Koa` 中使用传统的 `fn(req, res)` 功能和中间件的人。
 
+## 请求(Request)
+
+`Koa Request` 对象是在 `node` 的 `vanilla` 请求对象之上的抽象，提供了诸多对 `HTTP` 服务器开发有用的功能。
+
+### API
+
+#### request.header
+
+请求标头对象。
+
+#### request.header=
+
+设置请求标头对象。
+
+#### request.headers
+
+请求标头对象。别名为 `request.header`
+#### request.headers=
+
+设置请求标头对象。别名为 `request.header=`
+
+#### request.method
+
+请求方法。
+
+#### request.method=
+
+设置请求方法，对于实现诸如 `methodOverride()` 的中间件是有用的。
+
+#### request.length
+
+返回以数字返回请求的 `Content-Length`，或 `undefined`。
+
+#### request.url
+
+获取请求 `URL`.
+
+#### request.url=
+
+设置请求 `URL`, 对 `url` 重写有用。
+
+#### request.originalUrl
+
+获取请求原始`URL`。
+
+#### request.origin
+
+获取`URL`的来源，包括 `protocol` 和 `host`。
+
+```js
+ctx.request.origin
+// => http://example.com
+```
+#### request.href
+
+获取完整的请求`URL`，包括 `protocol`，`host` 和 `url`。
+
+```js
+ctx.request.href;
+// => http://example.com/foo/bar?q=1
+```
+
+#### request.path
+
+获取请求路径名。
+
+#### request.path=
+
+设置请求路径名，并在存在时保留查询字符串。
+
+#### request.querystring
+
+根据 ? 获取原始查询字符串
+
+#### request.querystring=
+
+设置原始查询字符串。
+
+#### request.search
+
+使用 ? 获取原始查询字符串。
+
+#### request.search=
+
+设置原始查询字符串。
+
+#### request.host
+
+获取当前主机（`hostname:port`）。当 `app.proxy` 是 `true` 时支持 `X-Forwarded-Host`，否则使用 `Host`。
+
+#### request.hostname
+
+存在时获取主机名。当 `app.proxy` 是 `true` 时支持 `X-Forwarded-Host`，否则使用 `Host`。
+
+如果主机是 `IPv6`, `Koa `解析到 `WHATWG URL API`, 注意 这可能会影响性能。
+
+#### request.URL
+
+获取 `WHATWG` 解析的 `URL` 对象。
+
+#### request.type
+
+获取请求 `Content-Type` 不含参数 `"charset"`。
+
+```js
+const ct = ctx.request.type;
+// => "image/png"
+```
+
+#### request.charset
+
+在存在时获取请求字符集，或者 `undefined`
+
+```js
+ctx.request.charset;
+// => "utf-8"
+```
+
+#### request.query
+获取解析的查询字符串, 当没有查询字符串时，返回一个空对象。请注意，此 `getter` 不支持嵌套解析。
+
+例如 `"color=blue&size=small"`:
+
+```js
+{
+  color: 'blue',
+  size: 'small'
+}
+```
+
+#### request.query=
+
+将查询字符串设置为给定对象。 请注意，此 `setter` 不支持嵌套对象。
+
+```js
+ctx.query = { next: '/login' };
+```
+
+#### request.fresh
+检查请求缓存是否“新鲜”，也就是内容没有改变。此方法用于 `If-None-Match / ETag`, 和 `If-Modified-Since` 和 `Last-Modified` 之间的缓存协商。 在设置一个或多个这些响应头后应该引用它。
+
+```js
+// 新鲜度检查需要状态20x或304
+ctx.status = 200;
+ctx.set('ETag', '123');
+
+// 缓存是好的
+if (ctx.fresh) {
+  ctx.status = 304;
+  return;
+}
+
+// 缓存是陈旧的
+// 获取新数据
+ctx.body = await db.find('something');
+```
+
+#### request.stale
+
+与 `request.fresh`相反.
+
+#### request.protocol
+
+返回请求协议，`“https”` 或 `“http”`。当 `app.proxy` 是 `true` 时支持 `X-Forwarded-Proto`。
+
+#### request.secure
+
+通过 `ctx.protocol == "https"` 来检查请求是否通过 `TLS` 发出。
+
+#### request.ip
+
+请求远程地址。 当 `app.proxy` 是 true 时支持 `X-Forwarded-Proto`。
+
+#### request.ips
+
+当 `X-Forwarded-For` 存在并且 `app.proxy` 被启用时，这些 `ips` 的数组被返回，从上游 - >下游排序。 禁用时返回一个空数组。
+
+#### request.subdomains
+
+将子域返回为数组。
+
+子域是应用程序主域之前主机的点分隔部分。默认情况下，应用程序的域名假定为主机的最后两个部分。这可以通过设置 `app.subdomainOffset` 来更改。
+
+例如，如果域名为`“tobi.ferrets.example.com”`：
+
+如果 `app.subdomainOffset` 未设置, `ctx.subdomains` 是 `["ferrets", "tobi"]`. 如果 `app.subdomainOffset` 是 3, `ctx.subdomains` 是 `["tobi"]`.
+
+#### request.is(types...)
+
+检查传入请求是否包含 `Content-Type` 头字段， 并且包含任意的 `mime type`。 如果没有请求主体，返回 `null`。 如果没有内容类型，或者匹配失败，则返回 `false`。 反之则返回匹配的 `content-type`。
