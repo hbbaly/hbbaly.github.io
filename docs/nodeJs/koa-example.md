@@ -107,8 +107,9 @@ app.on('error', (err, ctx) => {
 module.exports = app
 ```
 [自定义中间件代码](https://github.com/hbbaly/koa2-learn/tree/2f837ea0700151c6b02cf8f5386d8e9143a945c3/demo/koa-learn '自定义中间件代码')
+## 中间件执行顺序
 
-<h2 id="middleware">中间件执行顺序</h2>
+<h2 id="middleware"></h2>
 
 :::tip
 中间件执行顺序   以"先进后出"（first-in-last-out）的顺序执行
