@@ -27,6 +27,7 @@ module.exports = {
       { text: 'NodeJs',link:'/nodeJs/nodeJs'},
       { text: 'TypeScript',link:'/typescript/base'},
       { text: 'Python',link:'/python/python'},
+      { text: 'DataBase',link:'/database/m-install'},
       { text: 'Tools',link:'/tools/markdown'},
     ],
     sidebar: {
@@ -35,7 +36,8 @@ module.exports = {
       '/nodeJs/':getNodeSidebar(),
       '/tools/':getToolSidebar(),
       '/typescript/':getTypescriptSidebar(),
-      '/python/':getPythonSidebar()
+      '/python/':getPythonSidebar(),
+      '/database/':getDataBaseSidebar()
     },
     serviceWorker: {
       updatePopup: true // Boolean | Object, 默认值是 undefined.
@@ -64,6 +66,28 @@ function getNodeSidebar () {
       'express-example',
       'koa2',
       'koa-example'
+    ]
+  }]
+}
+function getDataBaseSidebar () {
+  return [{
+    title: '数据库',
+    collapsable: false,
+    children: [
+     'm-install',
+     'm-term',
+     'm-link',
+     'm-createbase',
+     'm-dele',
+     'm-c-collection',
+     'm-d-collection',
+     'm-update',
+     'm-remove',
+     'm-find',
+     'm-condition',
+     'm-type',
+     'm-skip',
+     'm-index'
     ]
   }]
 }
