@@ -89,7 +89,8 @@ function getDataBaseSidebar () {
      'm-skip',
      'm-index',
      'm-aggregate',
-     'node-link-m'
+     'node-link-m',
+     'mongoose'
     ]
   }]
 }
