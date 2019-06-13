@@ -90,7 +90,8 @@ function getDataBaseSidebar () {
      'm-index',
      'm-aggregate',
      'node-link-m',
-     'mongoose'
+     'mongoose',
+     'example'
     ]
   }]
 }
