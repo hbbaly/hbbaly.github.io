@@ -91,7 +91,8 @@ function getDataBaseSidebar () {
      'm-aggregate',
      'node-link-m',
      'mongoose',
-     'example'
+     'example',
+     'mysql'
     ]
   }]
 }
