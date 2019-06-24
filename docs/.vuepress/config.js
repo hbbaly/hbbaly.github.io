@@ -27,7 +27,7 @@ module.exports = {
       { text: 'NodeJs',link:'/nodeJs/nodeJs'},
       { text: 'TypeScript',link:'/typescript/base'},
       { text: 'Python',link:'/python/python'},
-      { text: 'DataBase',link:'/database/m-install'},
+      { text: 'DataBase',link:'/database/mongodb'},
       { text: 'Tools',link:'/tools/markdown'},
     ],
     sidebar: {
