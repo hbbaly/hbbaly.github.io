@@ -13,7 +13,7 @@ brew install mysql
 ```js
 /*连接mysql*/
 // mysql -h 地址 -P 端口 -u 用户名 -p 密码
-mysql -h 127.0.0.1 -P 3306 -u root -p ****
+mysql -u root -p ****
 
 /*退出mysql*/
 exit;
