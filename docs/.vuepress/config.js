@@ -77,7 +77,8 @@ function getDataBaseSidebar () {
      'mongodb',
      'mongoose',
      'example',
-     'mysql'
+     'mysql',
+     'mysql-pro'
     ]
   }]
 }
