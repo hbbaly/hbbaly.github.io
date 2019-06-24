@@ -458,5 +458,112 @@ mysql> select * from test;
 */
 
 ```
+## 临时表
 
+**TEMPORARY**
 
+`MySQL` 临时表在我们需要保存一些临时数据时是非常有用的。临时表只在当前连接可见，当关闭连接时，Mysql会自动删除表并释放所有空间。
+
+临时表在`MySQL 3.23`版本中添加，如果你的`MySQL`版本低于 `3.23`版本就无法使用`MySQL`的临时表。不过现在一般很少有再使用这么低版本的MySQL数据库服务了。
+
+```js
+create temporary table tem(id int);
+// Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
+/*
++----------------+
+| Tables_in_test |
++----------------+
+| group          |
+| join           |
+| null           |
+| test           |
++----------------+
+4 rows in set (0.00 sec)
+*/
+```
+当你使用 show tables命令显示数据表列表时，你将无法看到 tem表
+
+默认情况下，当你断开与数据库的连接后，临时表就会自动被销毁。当然你也可以在当前`MySQL`会话使用 `drop table`命令来手动删除临时表。
+
+```js
+drop table tem;
+// Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from tem;
+// ERROR 1146 (42S02): Table 'test.tem' doesn't exist
+```
+
+## 复制表
+
+如果我们需要完全的复制`MySQL`的数据表，包括表的结构，索引，默认值等。 如果仅仅使用`CREATE TABLE ... SELECT` 命令，是无法实现的。
+
+本章节将为大家介绍如何完整的复制`MySQL`数据表，步骤如下：
+
+1. 使用 `SHOW CREATE TABLE` 命令获取创建数据表(`CREATE TABLE`) 语句，该语句包含了原数据表的结构，索引等。
+2. 复制以下命令显示的SQL语句，修改数据表名，并执行SQL语句，通过以上命令 将完全的复制数据表结构。
+3. 如果你想复制表的内容，你就可以使用 `INSERT INTO ... SELECT` 语句来实现。
+
+```js
+create table copy(id int);
+// Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from copy;
+// Empty set (0.00 sec)
+
+mysql> select * from test;
+/*
++------+
+| id   |
++------+
+|    4 |
++------+
+1 row in set (0.00 sec)
+*/
+mysql> insert into copy(id) select id from test; // 也可以这样 insert into copy select * from test 拷贝全部的数据
+// Query OK, 1 row affected (0.01 sec)
+// Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> select * from copy;
+/*
++------+
+| id   |
++------+
+|    4 |
++------+
+1 row in set (0.00 sec)
+*/
+```
+
+## 序列使用
+
+### 使用 AUTO_INCREMENT
+  忽略不写
+### 重置序列
+
+如果你删除了数据表中的多条记录，并希望对剩下数据的AUTO_INCREMENT列进行重新排列，那么你可以通过删除自增的列，然后重新添加来实现。 不过该操作要非常小心，如果在删除的同时又有新记录添加，有可能会出现数据混乱。操作如下所示：
+
+```js
+mysql> ALTER TABLE insect DROP id; // 删除id
+mysql> ALTER TABLE insect
+    -> ADD id INT UNSIGNED NOT NULL AUTO_INCREMENT FIRST, // 重新添加第一条id
+    -> ADD PRIMARY KEY (id);
+```
+
+### 设置序列的开始值
+一般情况下序列的开始值为1，但如果你需要指定一个开始值100，那我们可以通过以下语句来实现：
+```js
+mysql> CREATE TABLE insect
+    -> (
+    -> id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    -> PRIMARY KEY (id),
+    -> name VARCHAR(30) NOT NULL, 
+    -> date DATE NOT NULL,
+    -> origin VARCHAR(30) NOT NULL
+)engine=innodb auto_increment=100 charset=utf8;
+```
+或者你也可以在表创建成功后，通过以下语句来实现：
+```js
+mysql> ALTER TABLE insect AUTO_INCREMENT = 100;
+```
