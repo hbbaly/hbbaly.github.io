@@ -567,3 +567,141 @@ mysql> CREATE TABLE insect
 ```js
 mysql> ALTER TABLE insect AUTO_INCREMENT = 100;
 ```
+## 处理重复数据
+
+`MySQL` 数据表中设置指定的字段为 `PRIMARY KEY`（主键） 或者 `UNIQUE`（唯一） 索引来保证数据的唯一性。
+
+`INSERT IGNORE INTO` 与 `INSERT INTO` 的区别就是 `INSERT IGNORE `会忽略数据库中已经存在的数据，如果数据库没有数据，就插入新的数据，如果有数据的话就跳过这条数据。这样就可以保留数据库中已经存在数据，达到在间隙中插入数据的目的。
+```js
+ CREATE TABLE UNIQYE(
+    last char(20) not null,
+    first char(20) not null,
+    sex char(10),
+    PRIMARY KEY(first, last)
+  );
+// Query OK, 0 rows affected (0.08 sec)
+//你想设置表中字段 first，last 数据不能重复，你可以设置双主键模式来设置数据的唯一性， 如果你设置了双主键，那么那个键的默认值不能为 NULL，可设置为 NOT NULL。
+mysql> insert into UNIQYE(first,last) values('hbb','hbbaly');
+// Query OK, 1 row affected (0.01 sec)
+
+//设置了唯一索引，那么在插入重复数据时，SQL 语句将无法执行成功,并抛出错。
+mysql> insert into UNIQYE(first,last) values('hbb','hbbaly');
+// ERROR 1062 (23000): Duplicate entry 'hbb-hbbaly' for key 'PRIMARY'
+
+// 执行后不会出错，也不会向数据表中插入重复数据：
+mysql> insert ignore into UNIQYE(first,last) values('hbb','hbbaly');
+// Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql>select * from UNIQYE;
+// +--------+-------+------+
+// | last   | first | sex  |
+// +--------+-------+------+
+// | hbbaly | hbb   | NULL |
+// +--------+-------+------+
+// 1 row in set (0.00 sec)
+```
+
+## 统计重复数据
+
+```js
+select * from UNIQYE;
+/*
++---------------+-------+------+
+| last          | first | sex  |
++---------------+-------+------+
+| hbbaly        | hbb   | NULL |
+| hbbaly1314    | hbb   | NULL |
+| hbbaly1314520 | hbb   | NULL |
+| hbbaly1314    | hbbly | NULL |
+| hbbaly1314520 | hbbly | NULL |
++---------------+-------+------+
+5 rows in set (0.00 sec)
+*/
+
+mysql> select count(*) as num, first, last from UNIQYE group by first, last;
+/*
++-----+-------+---------------+
+| num | first | last          |
++-----+-------+---------------+
+|   1 | hbb   | hbbaly        |
+|   1 | hbb   | hbbaly1314    |
+|   1 | hbb   | hbbaly1314520 |
+|   1 | hbbly | hbbaly1314    |
+|   1 | hbbly | hbbaly1314520 |
++-----+-------+---------------+
+5 rows in set (0.00 sec)
+*/
+mysql> select count(*) as num, first from UNIQYE group by first;
+/*
++-----+-------+
+| num | first |
++-----+-------+
+|   3 | hbb   |
+|   2 | hbbly |
++-----+-------+
+2 rows in set (0.01 sec)
+*/
+mysql> select count(*) as num, last from UNIQYE group by last;
+/*
++-----+---------------+
+| num | last          |
++-----+---------------+
+|   1 | hbbaly        |
+|   2 | hbbaly1314    |
+|   2 | hbbaly1314520 |
++-----+---------------+
+3 rows in set (0.00 sec)
+*/
+```
+
+## 过滤重复数据
+
+如果你需要读取不重复的数据可以在 SELECT 语句中使用 DISTINCT 关键字来过滤重复数据。
+```js
+select distinct first from UNIQYE;
+/*
++-------+
+| first |
++-------+
+| hbb   |
+| hbbly |
++-------+
+2 rows in set (0.00 sec)
+*/
+
+// group by 也可以过滤
+mysql> select count(*) as num, first from UNIQYE group by first;
+/*
++-----+-------+
+| num | first |
++-----+-------+
+|   3 | hbb   |
+|   2 | hbbly |
++-----+-------+
+2 rows in set (0.00 sec)
+*/
+```
+
+## 删除重复数据
+
+如果你想删除数据表中的重复数据，你可以使用以下的SQL语句：
+```js
+mysql> CREATE TABLE tmp SELECT last_name, first_name, sex FROM person_tbl  GROUP BY (last_name, first_name, sex);
+mysql> DROP TABLE person_tbl;
+mysql> ALTER TABLE tmp RENAME TO person_tbl;
+```
+
+## SQL 注入
+
+如果您通过网页获取用户输入的数据并将其插入一个MySQL数据库，那么就有可能发生SQL注入安全的问题。
+
+防止SQL注入，我们需要注意以下几个要点：
+
+1. 永远不要信任用户的输入。对用户的输入进行校验，可以通过正则表达式，或限制长度；对单引号和 双"-"进行转换等。
+2. 永远不要使用动态拼装sql，可以使用参数化的sql或者直接使用存储过程进行数据查询存取。
+3. 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接。
+4. 不要把机密信息直接存放，加密或者hash掉密码和敏感的信息。
+5. 应用的异常信息应该给出尽可能少的提示，最好使用自定义的错误信息对原始错误信息进行包装
+6. sql注入的检测方法一般采取辅助软件或网站平台来检测，软件一般采用sql注入检测工具jsky，网站平台就有亿思网站安全平台检测工具。MDCSOFT SCAN等。采用MDCSOFT-IPS可以有效的防御SQL注入，XSS攻击等。
+
+
