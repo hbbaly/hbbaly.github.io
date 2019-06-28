@@ -1,8 +1,8 @@
 # 高级类型
 
-## 交叉类型
+## 交叉类型（Intersection Types）
 
-交叉类型是将多个类型合并为一个类型。 这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。 例如， Person & Serializable & Loggable同时是 Person 和 Serializable 和 Loggable。
+交叉类型是将多个类型合并为一个类型。 这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。 例如， `Person & Serializable & Loggable`同时是 `Person` 和 `Serializable` 和 `Loggable`。
 
 ```js
 function extend<T, U>(first: T, second: U): T & U {
@@ -11,6 +11,7 @@ function extend<T, U>(first: T, second: U): T & U {
         (<any>result)[id] = (<any>first)[id];
     }
     for (let id in second) {
+      // 判断second中的属性，是否在result中也存在，没有，则给result添加
         if (!result.hasOwnProperty(id)) {
             (<any>result)[id] = (<any>second)[id];
         }
@@ -29,12 +30,15 @@ class ConsoleLogger implements Loggable {
         // ...
     }
 }
+// 合并Person，ConsoleLogger， 到jim， jim拥有Person，ConsoleLogger所有的属性
 var jim = extend(new Person("Jim"), new ConsoleLogger());
 var n = jim.name;
 jim.log();
 ```
 
-## 联合类型
+## 联合类型（Union Types）
+
+联合类型与交叉类型很有关联，但是使用上却完全不同。 偶尔你会遇到这种情况，一个代码库希望传入 `number`或 `string`类型的参数。 例如下面的函数：
 
 ```js
 /**
@@ -55,13 +59,13 @@ function padLeft(value: string, padding: any) {
 padLeft("Hello world", 4); // returns "    Hello world"
 ```
 
-padLeft存在一个问题， padding参数的类型指定成了 any。 这就是说我们可以传入一个既不是 number也不是 string类型的参数，但是TypeScript却不报错。
+`padLeft`存在一个问题， `padding`参数的类型指定成了 `any`。 这就是说我们可以传入一个既不是 `number`也不是 `string`类型的参数，但是`TypeScript`却不报错。
 
 ```js
 let indentedString = padLeft("Hello world", true); // 编译阶段通过，运行时报错
 ```
 
-代替 any， 我们可以使用 联合类型做为 padding的参数：
+代替 `any`， 我们可以使用 联合类型做为 `padding`的参数：
 
 ```js
 /**
@@ -76,10 +80,10 @@ function padLeft(value: string, padding: string | number) {
 let indentedString = padLeft("Hello world", true); // errors during compilation
 ```
 
-联合类型表示一个值可以是几种类型之一。 我们用竖线（ |）分隔每个类型，所以 number | string | boolean表示一个值可以是 number， string，或 boolean。
+联合类型表示一个值可以是几种类型之一。 我们用竖线（ `|`）分隔每个类型，所以 `number | string | boolean`表示一个值可以是 `number， string`，或 `boolean`。
 
 
-如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。
+如果一个值是联合类型，我们只能访问此联合类型的所有类型里**共有的成员**。
 
 ```js
 interface Bird {
@@ -103,7 +107,7 @@ pet.swim();    // errors
 
 ## 类型保护
 
-联合类型适合于那些值可以为不同类型的情况。 但当我们想确切地了解是否为 Fish时怎么办？ JavaScript里常用来区分2个可能值的方法是检查成员是否存在。 如之前提及的，我们只能访问联合类型中共同拥有的成员。
+联合类型适合于那些值可以为不同类型的情况。 但当我们想确切地了解是否为 `Fish`时怎么办？ `JavaScript`里常用来区分2个可能值的方法是检查成员是否存在。 如之前提及的，我们只能访问联合类型中共同拥有的成员。
 
 
 ```js
@@ -140,9 +144,9 @@ function isFish(pet: Fish | Bird): pet is Fish {
 }
 ```
 
-在这个例子里， pet is Fish就是类型谓词。 谓词为 parameterName is Type这种形式， parameterName必须是来自于当前函数签名里的一个参数名。
+在这个例子里， `pet is Fish`就是类型谓词。 谓词为 `parameterName is Type`这种形式， `parameterName`必须是来自于当前函数签名里的一个参数名。
 
-每当使用一些变量调用 isFish时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。
+每当使用一些变量调用 `isFish`时，`TypeScript`会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。
 
 ## `typeof`类型保护
 
@@ -169,7 +173,7 @@ function padLeft(value: string, padding: string | number) {
 }
 ```
 
-必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。 幸运的是，现在我们不必将 typeof x === "number"抽象成一个函数，因为TypeScript可以将它识别为一个类型保护。 也就是说我们可以直接在代码里检查类型了。
+必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。 幸运的是，现在我们不必将 `typeof x === "number"`抽象成一个函数，因为T`ypeScript`可以将它识别为一个类型保护。 也就是说我们可以直接在代码里检查类型了。
 
 ```js
 function padLeft(value: string, padding: string | number) {
@@ -183,11 +187,11 @@ function padLeft(value: string, padding: string | number) {
 }
 ```
 
-这些* typeof类型保护*只有两种形式能被识别： typeof v === "typename"和 typeof v !== "typename"， "typename"必须是 "number"， "string"， "boolean"或 "symbol"。 但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。
+这些* typeof类型保护*只有两种形式能被识别： `typeof v === "typename"`和 `typeof v !== "typename"`， `"typename"`必须是 `"number"`， `"string"`， `"boolean"`或 `"symbol"`。 但是`TypeScript`并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。
 
 ## `instanceof`类型保护
 
-instanceof类型保护是通过构造函数来细化类型的一种方式。
+`instanceof`类型保护是通过构造函数来细化类型的一种方式。
 
 ```js
 interface Padder {
@@ -225,18 +229,18 @@ if (padder instanceof StringPadder) {
 }
 ```
 
-instanceof的右侧要求是一个构造函数，TypeScript将细化为：
+`instanceof`的右侧要求是一个构造函数，`TypeScript`将细化为：
 
-1. 此构造函数的 prototype属性的类型，如果它的类型不为 any的话
+1. 此构造函数的 `prototype`属性的类型，如果它的类型不为 `any`的话
 2. 构造签名所返回的类型的联合
 
 ## null的类型
 
-TypeScript具有两种特殊的类型， null和 undefined，它们分别具有值null和undefined。
+`TypeScript`具有两种特殊的类型， `null`和 `undefined`，它们分别具有值`null`和`undefined`。
 
-类型检查器认为 null与 undefined可以赋值给任何类型。 null与 undefined是所有其它类型的一个有效值。 这也意味着，你阻止不了将它们赋值给其它类型，就算是你想要阻止这种情况也不行。
+类型检查器认为 `null`与 `undefined`可以赋值给任何类型。 `null`与 `undefined`是所有其它类型的一个有效值。 这也意味着，你阻止不了将它们赋值给其它类型，就算是你想要阻止这种情况也不行。
 
-`--strictNullChecks`标记可以解决此错误：当你声明一个变量时，它不会自动地包含 null或 undefined。 你可以使用联合类型明确的包含它们：
+`--strictNullChecks`标记可以解决此错误：当你声明一个变量时，它不会自动地包含 `null`或 `undefined`。 你可以使用联合类型明确的包含它们：
 
 ```js
 let s = "foo";
@@ -251,7 +255,7 @@ sn = undefined; // error, 'undefined'不能赋值给'string | null'
 
 ### 可选参数和可选属性
 
-使用了 `--strictNullChecks`，可选参数会被自动地加上 | undefined:
+使用了 `--strictNullChecks`，可选参数会被自动地加上 `| undefined`:
 
 ```js
 function f(x: number, y?: number) {
@@ -484,7 +488,7 @@ let personProps: keyof Person; // 'name' | 'age'
 
 `keyof Person`是完全可以与 `'name' | 'age'`互相替换的。 不同的是如果你添加了其它的属性到 `Person`，例如 `address: string`，那么 `keyof Person`会自动变为 `'name' | 'age' | 'address'`。 
 
-第二个操作符是 `T[K]`， 索引访问操作符。 在这里，类型语法反映了表达式语法。 这意味着 `person['name']`具有类型 `Person['name']` — 在我们的例子里则为 `string`类型。 然而，就像索引类型查询一样，你可以在普通的上下文里使用 T[K]，这正是它的强大所在。 你只要确保类型变量 K extends keyof T就可以了。
+第二个操作符是 `T[K]`， 索引访问操作符。 在这里，类型语法反映了表达式语法。 这意味着 `person['name']`具有类型 `Person['name']` — 在我们的例子里则为 `string`类型。 然而，就像索引类型查询一样，你可以在普通的上下文里使用 `T[K]`，这正是它的强大所在。 你只要确保类型变量 `K extends keyof T`就可以了。
 
 
 `keyof和 T[K]`与字符串索引签名进行交互。 如果你有一个带有字符串索引签名的类型，那么 `keyof T`会是 `string`。 并且` T[string]`为索引签名的类型：
@@ -517,7 +521,7 @@ interface PersonReadonly {
   readonly age: number;
 }
 ```
-TypeScript提供了从旧类型中创建新类型的一种方式 — 映射类型。 在映射类型里，新类型以相同的形式去转换旧类型里每个属性。 例如，你可以令每个属性成为 readonly类型或可选的。 下面是一些例子：
+`TypeScript`提供了从旧类型中创建新类型的一种方式 — `映射类型`。 在映射类型里，新类型以相同的形式去转换旧类型里每个属性。 例如，你可以令每个属性成为 `readonly`类型或可选的。 下面是一些例子：
 
 ```js
 type Readonly<T> = {
