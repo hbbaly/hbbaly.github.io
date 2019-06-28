@@ -14,24 +14,24 @@ let x = 3;
 ```js
 let x = [0, 1, null];
 ```
-为了推断x的类型，我们必须考虑所有元素的类型。 这里有两种选择： number和null。 计算通用类型算法会考虑所有的候选类型，并给出一个兼容所有候选类型的类型。
+为了推断x的类型，我们必须考虑所有元素的类型。 这里有两种选择： `number`和`null`。 计算通用类型算法会考虑所有的候选类型，并给出一个兼容所有候选类型的类型。
 
 
 ```js
 let zoo = [new Rhino(), new Elephant(), new Snake()];
 ```
 
-我们想让zoo被推断为Animal[]类型，但是这个数组里没有对象是Animal类型的，因此不能推断出这个结果。 为了更正，当候选类型不能使用的时候我们需要明确的指出类型：
+我们想让`zoo`被推断为`Animal[]`类型，但是这个数组里没有对象是`Animal`类型的，因此不能推断出这个结果。 为了更正，当候选类型不能使用的时候我们需要明确的指出类型：
 
 ```js
 let zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 ```
 
-如果没有找到最佳通用类型的话，类型推断的结果为联合数组类型，(Rhino | Elephant | Snake)[]。
+如果没有找到最佳通用类型的话，类型推断的结果为联合数组类型，`(Rhino | Elephant | Snake)[]`。
 
 ## 上下文类型
 
-TypeScript类型推论也可能按照相反的方向进行。 这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
+`TypeScript`类型推论也可能按照相反的方向进行。 这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
 
 ```js
 window.onmousedown = function(mouseEvent) {
@@ -39,7 +39,7 @@ window.onmousedown = function(mouseEvent) {
 };
 ```
 
-TypeScript类型检查器使用Window.onmousedown函数的类型来推断右边函数表达式的类型。 因此，就能推断出 mouseEvent参数的类型了。 如果函数表达式不是在上下文类型的位置， mouseEvent参数的类型需要指定为any，这样也不会报错了。
+`TypeScript`类型检查器使用`Window.onmousedown`函数的类型来推断右边函数表达式的类型。 因此，就能推断出 `mouseEvent`参数的类型了。 如果函数表达式不是在上下文类型的位置， `mouseEvent`参数的类型需要指定为`any`，这样也不会报错了。
 
 ```js
 window.onmousedown = function(mouseEvent: any) {
@@ -55,12 +55,12 @@ function createZoo(): Animal[] {
 }
 ```
 
-最佳通用类型有4个候选者：Animal，Rhino，Elephant和Snake。 当然， Animal会被做为最佳通用类型。
+最佳通用类型有4个候选者：`Animal，Rhino，Elephant`和`Snake`。 当然， `Animal`会被做为最佳通用类型。
 
 
 ## 类型兼容性
 
-TypeScript里的类型兼容性是基于结构子类型的。 结构类型是一种只使用其成员来描述类型的方式。 
+`TypeScript`里的类型兼容性是基于结构子类型的。 结构类型是一种只使用其成员来描述类型的方式。 
 
 ```js
 interface Named {
@@ -76,7 +76,7 @@ let p: Named;
 p = new Person();
 ```
 
-TypeScript结构化类型系统的基本规则是，如果x要兼容y，那么y至少具有与x相同的属性:
+`TypeScript`结构化类型系统的基本规则是，如果`x`要兼容`y`，那么y至少具有与`x`相同的属性:
 
 ```js
 interface Named {
@@ -89,7 +89,7 @@ let y = { name: 'Alice', location: 'Seattle' };
 x = y;
 ```
 
-这里要检查y是否能赋值给x，编译器检查x中的每个属性，看是否能在y中也找到对应属性。 在这个例子中，y包含名字是name的string类型成员,满足条件，因此赋值正确。
+这里要检查`y`是否能赋值给`x`，编译器检查x中的每个属性，看是否能在`y`中也找到对应属性。 在这个例子中，`y`包含名字是`name`的`string`类型成员,满足条件，因此赋值正确。
 
 检查函数参数时使用相同的规则：
 
@@ -114,9 +114,9 @@ y = x; // OK
 x = y; // Error
 ```
 
-要查看x是否能赋值给y，首先看它们的参数列表。 x的每个参数必须能在y里找到对应类型的参数。 注意的是参数的名字相同与否无所谓，**只看它们的类型**。 这里，x的每个参数在y中都能找到对应的参数，所以允许赋值。
+要查看`x`是否能赋值给`y`，首先看它们的参数列表。 `x`的每个参数必须能在`y`里找到对应类型的参数。 注意的是参数的名字相同与否无所谓，**只看它们的类型**。 这里，`x`的每个参数在`y`中都能找到对应的参数，所以允许赋值。
 
-第二个赋值错误，因为y有个必需的第二个参数，但是x并没有，所以不允许赋值。
+第二个赋值错误，因为`y`有个必需的第二个参数，但是`x`并没有，所以不允许赋值。
 
 如何处理返回值类型，创建两个仅是返回值类型不同的函数：
 
@@ -168,7 +168,7 @@ s = a;  // OK
 
 ## 泛型
 
-TypeScript是结构性的类型系统，类型参数只影响使用其做为类型一部分的结果类型。
+`TypeScript`是结构性的类型系统，类型参数只影响使用其做为类型一部分的结果类型。
 
 ```js
 interface Empty<T> {
@@ -190,7 +190,7 @@ let y: NotEmpty<string>;
 x = y;  // Error, because x and y are not compatible
 ```
 
-对于没指定泛型类型的泛型参数时，会把所有泛型参数当成any比较。 然后用结果类型进行比较，就像上面第一个例子。
+对于没指定泛型类型的泛型参数时，会把所有泛型参数当成`any`比较。 然后用结果类型进行比较，就像上面第一个例子。
 
 ```js
 let identity = function<T>(x: T): T {

@@ -2,7 +2,7 @@
 
 [vue-blog](https://github.com/hbbaly/vue-blog '我的github')
 
-Vue2 + Vue-router + Axios + Vuex + element-ui + Node + Express + MongoDB + Webpack, 搭建blog
+>Vue2 + Vue-router + Axios + Vuex + element-ui + Node + Express + MongoDB + Webpack, 搭建blog
 
 ## Run Setup
 

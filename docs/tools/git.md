@@ -225,7 +225,7 @@
 
   **`git tag -d <tagname>`**
 
-  从远程删除。删除命令也是push
+  从远程删除。删除命令也是`push`
 
   **`git push origin :refs/tags/<tagname>`**
 

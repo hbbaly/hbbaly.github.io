@@ -1,6 +1,6 @@
 module.exports = {
   title: 'hbbaly',
-  description: '前端知识，vue，react，webpack ts',
+  description: 'Vue, React, node, TypeScript, Python及数据库基本知识',
   head: [
     ['link', { rel: 'icon', href: 'https://avatars1.githubusercontent.com/u/34227573?s=460&v=4' }]
   ],
@@ -24,7 +24,7 @@ module.exports = {
     nav: [
       { text: 'Vue', link:'/vue/vue'},
       { text: 'React',link:'/react/react'},
-      { text: 'NodeJs',link:'/nodeJs/nodeJs'},
+      { text: 'NodeJs',link:'/nodeJs/express'},
       { text: 'TypeScript',link:'/typescript/base'},
       { text: 'Python',link:'/python/python'},
       { text: 'DataBase',link:'/database/mongodb'},
@@ -40,12 +40,12 @@ module.exports = {
       '/database/':getDataBaseSidebar()
     },
     serviceWorker: {
-      updatePopup: true // Boolean | Object, 默认值是 undefined.
+      updatePopup: true, // Boolean | Object, 默认值是 undefined.
       // 如果设置为 true, 默认的文本配置将是: 
-      // updatePopup: { 
-      //    message: "New content is available.", 
-      //    buttonText: "Refresh" 
-      // }
+      updatePopup: { 
+         message: "New content is available.", 
+         buttonText: "Refresh" 
+      }
     }
   },
   configureWebpack: {
@@ -61,7 +61,6 @@ function getNodeSidebar () {
     title: 'NodeJs知识',
     collapsable: false,
     children: [
-      'nodeJs',
       'express',
       'express-example',
       'koa2',
