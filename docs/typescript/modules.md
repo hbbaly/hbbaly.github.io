@@ -11,7 +11,7 @@
 
 ## 导出声明
 
-任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加export关键字来导出。
+任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加`export`关键字来导出。
 
 ```js
 export interface StringValidator {
@@ -48,7 +48,7 @@ export class ParseIntBasedZipCodeValidator {
 export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidator";
 ```
 
-或者一个模块可以包裹多个模块，并把他们导出的内容联合在一起通过语法：export * from "module"。
+或者一个模块可以包裹多个模块，并把他们导出的内容联合在一起通过语法：`export * from "module"`。
 
 ```js
 export * from "./StringValidator"; // exports interface StringValidator
@@ -80,7 +80,7 @@ let myValidator = new validator.ZipCodeValidator();
 
 ## 默认导出
 
-每个模块都可以有一个default导出。 默认导出使用 default关键字标记；并且一个模块只能够有一个default导出。 需要使用一种特殊的导入形式来导入 default导出。
+每个模块都可以有一个`default`导出。 默认导出使用 `default`关键字标记；并且一个模块只能够有一个`default`导出。 需要使用一种特殊的导入形式来导入 `default`导出。
 `JQuery.d.ts`
 ```js
 declare let $: JQuery;
@@ -169,7 +169,7 @@ if (needZipValidation) {
 ```
 ## 外部模块
 
-在Node.js里大部分工作是通过加载一个或多个模块实现的。 我们可以使用顶级的 export声明来为每个模块都定义一个.d.ts文件，但最好还是写在一个大的.d.ts文件里。 我们使用与构造一个外部命名空间相似的方法，但是这里使用 module关键字并且把名字用引号括起来，方便之后import。
+在Node.js里大部分工作是通过加载一个或多个模块实现的。 我们可以使用顶级的 export声明来为每个模块都定义一个`.d.ts`文件，但最好还是写在一个大的`.d.ts`文件里。 我们使用与构造一个外部命名空间相似的方法，但是这里使用 module关键字并且把名字用引号括起来，方便之后`import`。
 
 `node.d.ts`
 ```js
