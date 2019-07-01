@@ -86,9 +86,7 @@ function getVueSidebar () {
         title: 'Vue知识',
         collapsable: false,
         children: [
-         'vue',
-         'vue-router',
-         'vue-vuex'
+         'vue'
         ]
       }]
 }
