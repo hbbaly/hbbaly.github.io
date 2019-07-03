@@ -86,7 +86,8 @@ function getVueSidebar () {
         title: 'Vue知识',
         collapsable: false,
         children: [
-         'vue'
+         'vue',
+         'vue-example'
         ]
       }]
 }

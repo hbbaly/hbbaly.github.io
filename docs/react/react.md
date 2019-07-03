@@ -4,7 +4,7 @@
 
 ### 同过脚手架
 
-```
+```js
 // Node >= 6 and npm >= 5.2
 npx create-`React`-app my-app
 cd my-app
@@ -13,16 +13,15 @@ npm start
 
 ## Virtual DOM
 
-虚拟DOM是`React`的一大亮点，具有batching(批处理)和高效的Diff算法,由虚拟 DOM来确保只对界面上真正变化的部分进行实际的DOM操作。
-```md
+虚拟DOM是`React`的一大亮点，具有`batching`(批处理)和高效的`Diff`算法,由虚拟 `DOM`来确保只对界面上真正变化的部分进行实际的`DOM`操作。
 <!-- `React`官网说明 -->
-有一些通用的解决方案，对于生成最小操作数的这个算法问题，以将一棵树转换为另一棵树。然而，在state of the art algorithms 中有时间复杂度为O(n3)，在这里n代表树中元素个数。
+有一些通用的解决方案，对于生成最小操作数的这个算法问题，以将一棵树转换为另一棵树。然而，在s`tate of the art algorithms` 中有时间复杂度为O(n3)，在这里n代表树中元素个数。
 
 若我们在`React`中使用，展示1000个元素则需要进行10亿次的比较。这太过昂贵。与此不同，`React`基于两点假设，实现了一个启发的O(n)算法：
 
 1.两个不同类型的元素将产生不同的树。
+
 2.开发者可以使用key属性来提示哪些子元素贯穿不同渲染是稳定的。
-```
 
 ![virtual-dom](../.vuepress/public/img/virtual-dom.png)
 
@@ -87,9 +86,9 @@ componentWillMount   // 组件挂载之前
 
 ```
 
-`componentWillReceiveProps` : props 发生改变调用 在组件从父组件接受参数的时候，并且这个组件已经存在父组件中，父组件render重新执行的时候都会触发`componentWillReceiveProps`执行，如果是第一次存在与父组件中,`componentWillReceiveProps`是不会执行的。
+`componentWillReceiveProps` : `props` 发生改变调用 在组件从父组件接受参数的时候，并且这个组件已经存在父组件中，父组件`render`重新执行的时候都会触发`componentWillReceiveProps`执行，如果是第一次存在与父组件中,`componentWillReceiveProps`是不会执行的。
 
-`componentWillReceiveProps` : return true组件会重新渲染，false阻止重新渲染。
+`componentWillReceiveProps` : `return true`组件会重新渲染，`false`阻止重新渲染。
 
 
 ```js
@@ -176,9 +175,9 @@ const element = <h1>Hello, world!</h1>
 
 
 
-这种看起来可能有些奇怪的标签语法既不是字符串也不是 HTML
+这种看起来可能有些奇怪的标签语法既不是字符串也不是 `HTML`
 
-它被称为 JSX， 一种 JavaScript 的语法扩展。 我们推荐在 React 中使用 JSX 来描述用户界面。JSX 乍看起来可能比较像是模版语言，但事实上它完全是在 JavaScript 内部实现的。
+它被称为 `JSX`， 一种 `JavaScript` 的语法扩展。 我们推荐在 `React` 中使用 `JSX` 来描述用户界面。`JSX` 乍看起来可能比较像是模版语言，但事实上它完全是在 `JavaScript` 内部实现的。
 
 ### 在 JSX 中使用表达式
 
@@ -200,12 +199,12 @@ constructor(props){
 
 ### JSX 防注入攻击
 
-React DOM 在渲染之前默认会 过滤 所有传入的值。它可以确保你的应用不会被注入攻击。所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止 XSS(跨站脚本) 攻击。
+`React DOM` 在渲染之前默认会 过滤 所有传入的值。它可以确保你的应用不会被注入攻击。所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止 `XSS`(跨站脚本) 攻击。
 
 ## 事件处理
 
-- React事件绑定属性的命名采用驼峰式写法，而不是小写。
-- 如果采用 JSX 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串(DOM元素的写法)
+- `React`事件绑定属性的命名采用驼峰式写法，而不是小写。
+- 如果采用 `JSX` 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串(DOM元素的写法)
 
 ```js
 
@@ -214,7 +213,7 @@ React DOM 在渲染之前默认会 过滤 所有传入的值。它可以确保�
 </button>
 ```
 
-在 React 中另一个不同是你不能使用返回 false 的方式阻止默认行为。你必须明确的使用 preventDefault。
+在 `React` 中另一个不同是你不能使用返回 `false` 的方式阻止默认行为。你必须明确的使用 `preventDefault`。
 
 ```js
 class Toggle extends React.Component {
@@ -261,7 +260,7 @@ ReactDOM.render(
 必须谨慎对待 JSX 回调函数中的 this，类的方法默认是不会绑定 this 的。如果你忘记绑定 this.handleClick 并把它传入 onClick, 当你调用这个函数的时候 this 的值会是 undefined。
 :::
 
-如果使用 bind 让你很烦，这里有两种方式可以解决。如果你正在使用实验性的属性初始化器语法，你可以使用属性初始化器来正确的绑定回调函数。
+如果使用 `bind` 让你很烦，这里有两种方式可以解决。如果你正在使用实验性的属性初始化器语法，你可以使用属性初始化器来正确的绑定回调函数。
 
 ```js
 class LoggingButton extends React.Component {
@@ -328,9 +327,9 @@ function NumberList(props) {
 }
 ```
 
-Keys可以在DOM中的某些元素被增加或删除的时候帮助React识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。
+`Keys`可以在`DOM`中的某些元素被增加或删除的时候帮助`React`识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。
 
-一个元素的key最好是这个元素在列表中拥有的一个独一无二的字符串。通常，我们使用来自数据的id作为元素的key。
+一个元素的`key`最好是这个元素在列表中拥有的一个独一无二的字符串。通常，我们使用来自数据的`id`作为元素的`key`。
 
 ```js
 const todoItems = todos.map((todo) =>
@@ -340,7 +339,7 @@ const todoItems = todos.map((todo) =>
 );
 ```
 
-当元素没有确定的id时，你可以使用他的序列号索引index作为key
+当元素没有确定的`id`时，你可以使用他的序列号索引`index`作为`key`
 
 ```js
 const todoItems = todos.map((todo, index) =>
@@ -368,23 +367,23 @@ const content = posts.map((post) =>
 );
 ```
 
-上面例子中，Post组件可以读出props.id，但是不能读出props.key
+上面例子中，`Post`组件可以读出`props.id`，但是不能读出`props.key`
 
 ## JSX中的子代
 
-在既包含开始标签又包含结束标签的 JSX 表达式中，这两个标签之间的内容被传递为专门的属性：props.children。有几种不同的方法来传递子代。
+在既包含开始标签又包含结束标签的 `JSX` 表达式中，这两个标签之间的内容被传递为专门的属性：`props.children`。有几种不同的方法来传递子代。
 
 ### 字符串字面量
 
 ```js
 <MyComponent>Hello world!</MyComponent>
 ```
-这是有效的 JSX，并且 MyComponent 的 props.children 值将会直接是 "hello world!"。
+这是有效的 `JSX`，并且 `MyComponent` 的 `props.children` 值将会直接是 `"hello world!"`。
 
 
 ### JSX子代
 
-可以提供更多个 JSX 元素作为子代，这对于嵌套显示组件非常有用
+可以提供更多个 `JSX` 元素作为子代，这对于嵌套显示组件非常有用
 
 ```js
 <MyContainer>
@@ -393,7 +392,7 @@ const content = posts.map((post) =>
 </MyContainer>
 ```
 
-React 组件也可以返回包含多个元素的一个数组
+`React` 组件也可以返回包含多个元素的一个数组
 ```js
 render() {
   // 不需要使用额外的元素包裹数组中的元素！
@@ -408,11 +407,11 @@ render() {
 
 ### JavaScript 表达式作为子代
 
-将任何 {} 包裹的 JavaScript 表达式作为子代传递。
+将任何 `{}` 包裹的 `JavaScript` 表达式作为子代传递。
 
 ### 布尔值、Null 和 Undefined 被忽略
 
-false、null、undefined 和 true 都是有效的子代，只是它们不会被渲染。下面的JSX表达式将渲染为相同的东西。
+`false、null、undefined` 和 `true` 都是有效的子代，只是它们不会被渲染。下面的`JSX`表达式将渲染为相同的东西。
 
 ```js
 <div />
@@ -428,7 +427,7 @@ false、null、undefined 和 true 都是有效的子代，只是它们不会被�
 <div>{true}</div>
 ```
 
-这在根据条件来确定是否渲染React元素时非常有用。以下的JSX只会在showHeader为true时渲染<Header />组件。
+这在根据条件来确定是否渲染`React`元素时非常有用。以下的`JSX`只会在`showHeader`为`true`时渲染`<Header />`组件。
 
 ```js
 <div>
@@ -437,7 +436,7 @@ false、null、undefined 和 true 都是有效的子代，只是它们不会被�
 </div>
 ```
 
-如果你想让类似 false、true、null 或 undefined 出现在输出中，你必须先把它转换成字符串
+如果你想让类似 `false、true、null` 或 `undefined` 出现在输出中，你必须先把它转换成字符串
 
 ```js
 <div>
@@ -447,7 +446,7 @@ false、null、undefined 和 true 都是有效的子代，只是它们不会被�
 
 ## PropTypes
 
-React 也有一些内置的类型检查功能。要检查组件的属性，你需要配置特殊的 propTypes 属性
+`React` 也有一些内置的类型检查功能。要检查组件的属性，你需要配置特殊的 `propTypes` 属性
 
 ```js
 import PropTypes from 'prop-types';
@@ -569,7 +568,7 @@ MyComponent.propTypes = {
 ```
 
 ### 属性默认值
-可以通过配置 defaultProps 为 props定义默认值
+可以通过配置 `defaultProps` 为 `props`定义默认值
 
 
 ```js
@@ -612,11 +611,11 @@ class MyComponent extends React.Component {
 }
 ```
 
-使用 `React.createRef()` 创建 refs，通过 ref 属性来获得 React 元素。当构造组件时，refs 通常被赋值给实例的一个属性，这样你可以在组件中任意一处使用它们。
+使用 `React.createRef()` 创建 `refs`，通过 `ref` 属性来获得 `React` 元素。当构造组件时，`refs` 通常被赋值给实例的一个属性，这样你可以在组件中任意一处使用它们。
 
 ### 访问 Refs
 
-当一个 ref 属性被传递给一个 render 函数中的元素时，可以使用 ref 中的 current 属性对节点的引用进行访问。
+当一个 `ref` 属性被传递给一个 `render` 函数中的元素时，可以使用 `ref` 中的 `current` 属性对节点的引用进行访问。
 
 ```js
 const node = this.myRef.current
