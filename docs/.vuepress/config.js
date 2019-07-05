@@ -130,7 +130,8 @@ function getToolSidebar () {
       'markdown',
       'git',
       'webpack',
-      'gulp'
+      'gulp',
+      'jest'
     ]
   }]
 }
