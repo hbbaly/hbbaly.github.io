@@ -476,3 +476,75 @@ test('this test will not run', () => {
 ```
 
 如果你有一个测试，当它作为一个更大的用例中的一部分时，经常运行失败，但是当你单独运行它时，并不会失败，所以最好考虑其他测试对这个测试的影响。 通常可以通过修改 `beforeEach` 来清除一些共享的状态来修复这种问题。 如果不确定某些共享状态是否被修改，还可以尝试在 `beforeEach` 中 `log` 数据来 `debug`。
+
+## 使用 mock 函数
+假设我们要测试函数 `forEach` 的内部实现，这个函数为传入的数组中的每个元素调用一次回调函数。
+
+为了测试此函数，我们可以使用一个 `mock` 函数，然后检查 `mock` 函数的状态来确保回调函数如期调用。
+```js
+function forEach(items, callback) {
+    for (let index = 0; index < items.length; index++) {
+      callback(items[index]);
+    }
+  }
+test('mock function', () => {
+  const mockCallback = jest.fn(x => 42 + x);
+  forEach([0, 1], mockCallback);
+  
+  // 此 mock 函数被调用了两次
+  expect(mockCallback.mock.calls.length).toBe(2);
+  
+  // 第一次调用函数时的第一个参数是 0
+  expect(mockCallback.mock.calls[0][0]).toBe(0);
+  
+  // 第二次调用函数时的第一个参数是 1
+  expect(mockCallback.mock.calls[1][0]).toBe(1);
+  
+  // 第一次函数调用的返回值是 42
+  expect(mockCallback.mock.results[0].value).toBe(42);
+})
+```
+
+### .mock 属性
+
+所有的 `mock` 函数都有这个特殊的 `.mock`属性，它保存了关于此函数如何被调用、调用时的返回值的信息。 `.mock` 属性还追踪每次调用时 `this`的值，所以我们同样可以也检视（`inspect`） `this`.
+
+### Mock 的返回值
+
+```js
+test('return value', () => {
+  const myMock = jest.fn();
+  myMock
+  .mockReturnValueOnce(10)
+  .mockReturnValueOnce('x')
+  .mockReturnValue(true);
+  console.log(myMock());
+  // let val = 10 || 'x' || true
+  expect(myMock()).not.toBe(1)
+})
+```
+
+### Mock 实现
+`mockImplementation`方法非常有用,当需要定义从另一个模块创建的模拟函数的默认实现时
+
+
+```js
+jest.mock('../src/sum.js'); // this happens automatically with automocking
+const foo = require('../src/sum.js');
+foo.mockImplementation(() => 42);
+console.log(foo()); // 42
+```
+需要重新创建复杂模拟函数,调用产生不同的结果时,使用`MockImplementationOnce`方法
+
+```js
+const myMockFn = jest
+  .fn()
+  .mockImplementationOnce(cb => cb(null, true))
+  .mockImplementationOnce(cb => cb(null, false));
+
+myMockFn((err, val) => console.log(val));
+// > true
+
+myMockFn((err, val) => console.log(val));
+// > false
+```
