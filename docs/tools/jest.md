@@ -477,53 +477,6 @@ test('this test will not run', () => {
 
 如果你有一个测试，当它作为一个更大的用例中的一部分时，经常运行失败，但是当你单独运行它时，并不会失败，所以最好考虑其他测试对这个测试的影响。 通常可以通过修改 `beforeEach` 来清除一些共享的状态来修复这种问题。 如果不确定某些共享状态是否被修改，还可以尝试在 `beforeEach` 中 `log` 数据来 `debug`。
 
-## 使用 mock 函数
-假设我们要测试函数 `forEach` 的内部实现，这个函数为传入的数组中的每个元素调用一次回调函数。
-
-为了测试此函数，我们可以使用一个 `mock` 函数，然后检查 `mock` 函数的状态来确保回调函数如期调用。
-```js
-function forEach(items, callback) {
-    for (let index = 0; index < items.length; index++) {
-      callback(items[index]);
-    }
-  }
-test('mock function', () => {
-  const mockCallback = jest.fn(x => 42 + x);
-  forEach([0, 1], mockCallback);
-  
-  // 此 mock 函数被调用了两次
-  expect(mockCallback.mock.calls.length).toBe(2);
-  
-  // 第一次调用函数时的第一个参数是 0
-  expect(mockCallback.mock.calls[0][0]).toBe(0);
-  
-  // 第二次调用函数时的第一个参数是 1
-  expect(mockCallback.mock.calls[1][0]).toBe(1);
-  
-  // 第一次函数调用的返回值是 42
-  expect(mockCallback.mock.results[0].value).toBe(42);
-})
-```
-
-### .mock 属性
-
-所有的 `mock` 函数都有这个特殊的 `.mock`属性，它保存了关于此函数如何被调用、调用时的返回值的信息。 `.mock` 属性还追踪每次调用时 `this`的值，所以我们同样可以也检视（`inspect`） `this`.
-
-### Mock 的返回值
-
-```js
-test('return value', () => {
-  const myMock = jest.fn();
-  myMock
-  .mockReturnValueOnce(10)
-  .mockReturnValueOnce('x')
-  .mockReturnValue(true);
-  console.log(myMock());
-  // let val = 10 || 'x' || true
-  expect(myMock()).not.toBe(1)
-})
-```
-
 ### Mock 实现
 `mockImplementation`方法非常有用,当需要定义从另一个模块创建的模拟函数的默认实现时
 
@@ -547,4 +500,207 @@ myMockFn((err, val) => console.log(val));
 
 myMockFn((err, val) => console.log(val));
 // > false
+```
+
+### mock name
+
+```js
+const myMockFn = jest
+  .fn()
+  .mockReturnValue('default')
+  .mockImplementation(scalar => 42 + scalar)
+  .mockName('add42');
+```
+
+### 自定义匹配器
+
+```js
+// 这个 mock 函数至少被调用一次
+expect(mockFunc).toBeCalled();
+
+// 这个 mock 函数至少被调用一次，而且传入了特定参数
+expect(mockFunc).toBeCalledWith(arg1, arg2);
+
+// 这个 mock 函数的最后一次调用传入了特定参数
+expect(mockFunc).lastCalledWith(arg1, arg2);
+
+// 所有的 mock 的调用和名称都被写入了快照
+expect(mockFunc).toMatchSnapshot();
+
+///////////////////////////////////////////////
+// 这个 mock 函数至少被调用一次
+expect(mockFunc.mock.calls.length).toBeGreaterThan(0);
+
+// 这个 mock 函数至少被调用一次，而且传入了特定参数
+expect(mockFunc.mock.calls).toContain([arg1, arg2]);
+
+// 这个 mock 函数的最后一次调用传入了特定参数
+expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1]).toEqual([
+  arg1,
+  arg2,
+]);
+
+//  这个 mock 函数的最后一次调用的第一个参数是`42`
+// （注意这个断言的规范是没有语法糖的）
+expect(mockFunc.mock.calls[mockFunc.mock.calls.length - 1][0]).toBe(42);
+
+// 快照会检查 mock 函数被调用了同样的次数，
+// 同样的顺序，和同样的参数 它还会在名称上断言。
+expect(mockFunc.mock.calls).toEqual([[arg1, arg2]]);
+expect(mockFunc.getMockName()).toBe('a mock name');
+```
+
+
+## Jest Platform
+
+您可以选择Jest的特定特性，并将它们作为独立的依赖使用。以下是可用包的列表
+
+### jest-changed-files
+用于标识Git/Hg存储库中已修改文件的工具,
+两个函数：
+
+- `getchangefilesforroots`返回一个`promise`，具有已更改文件和repos的对象。
+
+- `findrepos`返回一个`promise`，解析为指定路径中包含的一组存储库
+
+
+```js
+const {getChangedFilesForRoots} = require('jest-changed-files');
+
+// 打印出当前目录最后修改过的一组文件
+getChangedFilesForRoots(['./'], {
+  lastCommit: true,
+}).then(result => console.log(result.changedFiles));
+```
+
+### jest-diff
+
+用于可视化数据更改的工具。导出一个函数，该函数比较任何类型的两个值，并返回一个“漂亮打印”的字符串，说明两个参数之间的差异。
+
+```js
+const diff = require('jest-diff');
+
+const a = {a: {b: {c: 5}}};
+const b = {a: {b: {c: 6}}};
+
+const result = diff(a, b);
+
+// print diff
+console.log(result);
+```
+
+### jest-docblock
+
+用于提取和分析JavaScript文件顶部注释的工具。导出释块内的数据
+
+```js
+const {parseWithComments} = require('jest-docblock');
+
+const code = `
+/**
+ * This is a sample
+ *
+ * @flow
+ */
+
+ console.log('Hello World!');
+`;
+
+const parsed = parseWithComments(code);
+
+// prints an object with two attributes: comments and pragmas.
+console.log(parsed);
+```
+
+### jest-get-type
+
+用于标识任何`javascript`值的类型的模块。导出一个函数，该函数返回一个字符串，该字符串的值类型作为参数传递。
+
+```js
+const getType = require('jest-get-type');
+
+const array = [1, 2, 3];
+const nullValue = null;
+const undefinedValue = undefined;
+
+// prints 'array'
+console.log(getType(array));
+// prints 'null'
+console.log(getType(nullValue));
+// prints 'undefined'
+console.log(getType(undefinedValue));
+```
+
+### jest-validate
+
+用于验证用户提交的配置的工具
+
+导出采用两个参数的函数：用户配置和包含示例配置和其他选项的对象。返回值是一个具有两个属性的对象：
+
+
+- `HasDeprecationWarnings`，一个布尔值，指示提交的配置是否有`Deprecation`警告，
+
+- `Isvalid`，一个布尔值，指示配置是否正确。
+
+```js
+const {validate} = require('jest-validate');
+
+const configByUser = {
+  transform: '<rootDir>/node_modules/my-custom-transform',
+};
+
+const result = validate(configByUser, {
+  comment: '  Documentation: http://custom-docs.com',
+  exampleConfig: {transform: '<rootDir>/node_modules/babel-jest'},
+});
+
+console.log(result);
+```
+
+### jest-worker
+用于任务并行化的模块。
+
+```js
+// heavy-task.js
+
+module.exports = {
+  myHeavyTask: args => {
+    // long running CPU intensive task.
+  },
+};
+
+```
+
+```js
+// main.js
+
+async function main() {
+  const worker = new Worker(require.resolve('./heavy-task.js'));
+
+  // run 2 tasks in parallel with different arguments
+  const results = await Promise.all([
+    worker.myHeavyTask({foo: 'bar'}),
+    worker.myHeavyTask({bar: 'foo'}),
+  ]);
+
+  console.log(results);
+}
+
+main();
+```
+
+### pretty-format
+
+导出将任何`javascript`值转换为可读字符串的函数。支持所有现成的内置`JavaScript`类型，并允许通过用户定义的插件扩展特定于应用程序的类型。
+
+```js
+const prettyFormat = require('pretty-format');
+
+const val = {object: {}};
+val.circularReference = val;
+val[Symbol('foo')] = 'foo';
+val.map = new Map([['prop', 'value']]);
+val.array = [-0, Infinity, NaN];
+
+console.log(prettyFormat(val));
 ```
