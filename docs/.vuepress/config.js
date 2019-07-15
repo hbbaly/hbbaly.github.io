@@ -140,7 +140,9 @@ function getPythonSidebar () {
     title: 'Python',
     collapsable: false,
     children: [
-      'basicTypes'
+      'basicTypes',
+      'variable',
+      'function'
     ]
   }]
 }
