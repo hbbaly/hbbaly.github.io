@@ -26,7 +26,7 @@ module.exports = {
       { text: 'React',link:'/react/react'},
       { text: 'NodeJs',link:'/nodeJs/express'},
       { text: 'TypeScript',link:'/typescript/base'},
-      { text: 'Python',link:'/python/python'},
+      { text: 'Python',link:'/python/basicTypes'},
       { text: 'DataBase',link:'/database/mongodb'},
       { text: 'Tools',link:'/tools/markdown'},
     ],
@@ -140,7 +140,7 @@ function getPythonSidebar () {
     title: 'Python',
     collapsable: false,
     children: [
-      'python'
+      'basicTypes'
     ]
   }]
 }
