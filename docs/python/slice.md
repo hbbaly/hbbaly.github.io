@@ -232,4 +232,16 @@ def fib(max):
 
 但是用`for`循环调用`generator`时，发现拿不到`generator`的`return`语句的返回值。如果想要拿到返回值，必须捕获`StopIteration`错误，返回值包含在``StopIteration`的`value`中
 
+## 函数返回多个结果
+
+```py
+# 函数返回多个结果的写法
+def result(a, b, c):
+    return a, b, c
+
+e, f, g = result(1, 2, 3)  # 类似与es6的结构赋值
+print(e, f, g)  # 1,2,3
+```
+
+
 
