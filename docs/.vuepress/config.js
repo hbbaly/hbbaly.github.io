@@ -142,7 +142,8 @@ function getPythonSidebar () {
     children: [
       'basicTypes',
       'variable',
-      'function'
+      'function',
+      'slice'
     ]
   }]
 }
