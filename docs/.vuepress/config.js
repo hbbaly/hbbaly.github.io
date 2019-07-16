@@ -143,7 +143,8 @@ function getPythonSidebar () {
       'basicTypes',
       'variable',
       'function',
-      'slice'
+      'slice',
+      'class'
     ]
   }]
 }
