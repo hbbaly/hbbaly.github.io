@@ -260,3 +260,105 @@ s.score = 100
 # s.age = 20
 print(s.age) # S instance has no attribute '_score'
 ```
+
+## 枚举类型
+
+```py
+# -*- coding: utf-8 -*
+# 使用枚举类型
+from enum import Enum, unique
+@unique  # @unique装饰器可以帮助我们检查保证没有重复值。
+class weekday(Enum):
+    Sun = 0 # Sun的value被设定为0
+    Mon = 1
+    Tue = 2
+    Wed = 3
+    Thu = 4
+    Fri = 5
+    Sat = 6
+# 对应的key value
+print(weekday.Mon)  #  weekday.Mon
+print(weekday.Mon.value) # 1
+```
+
+## 作用域
+
+```py
+# 作用域
+def f ():
+  a = 10
+  def s ():
+    a = 20  # 和外面a不是同一个，不受外面a的影响，python认为这里的a是一个s函数的局部变量
+    print(a)
+  print(a)
+  s()
+  print(a)
+f()
+# 和js有作用域
+```
+
+## 闭包
+
+内部函数使用了外部函数的变量
+
+```py
+def f ():
+  a = 10
+  def s ():
+    return a^2
+  return s
+b = f()
+print(b.__closure__)  # b有 __closure__ 这个属性，说明有闭包现象的存在：
+print(b.__closure__[0].cell_contents)  # 10 打印了闭包使用的变量
+```
+
+局部变量带来的问题
+
+`nonlocal`关键字用来在函数或其他作用域中使用外层(非全局)变量
+
+```py
+a = 0
+# def sum (step):
+#   sum_step = a + step  # local variable 'a' referenced before assignment
+#   a = sum_step
+#   return a
+# b = sum(2)
+# c = sum(5)
+# 上面的代码会报错，因为， a = sum_step，表示a是局部变量，sum_step = a + step 中的a还没有赋值，所以就会爆粗
+
+# 使用global解决这个问题
+# def sum (step):
+#   global a  # gloval表示a是引用全局变量a
+#   sum_step = a + step
+#   a = sum_step
+#   return a
+# b = sum(2)
+# c = sum(5)
+# print(b,c) # 2,7
+
+
+# 代码中使用全局变量是一件非常不好的现象，可以使用闭包来解决
+origin = 0
+def no_local(origin): 
+  def use_no_local(step):
+    nonlocal origin # nonlocal关键字用来在函数或其他作用域中使用外层(非全局)变量
+    sum_step = origin + step
+    origin = sum_step
+    return origin
+  return use_no_local
+d = no_local(origin)
+print(d.__closure__)
+print(d.__closure__[0].cell_contents) # 0
+print(origin) # 0
+print(d(2))
+print(d.__closure__[0].cell_contents) # 2
+print(origin) # 0
+print(d(5))
+print(d.__closure__[0].cell_contents) # 7
+print(origin) # 0
+
+# origin 没有改变，origin只是在函数use_no_local中改变，记忆总步长, 可以看出d.__closure__[0].cell_contents一直在变，使用的闭包
+
+```
+
+
