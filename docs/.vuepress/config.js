@@ -144,7 +144,8 @@ function getPythonSidebar () {
       'variable',
       'function',
       'slice',
-      'class'
+      'class',
+      'regular'
     ]
   }]
 }
