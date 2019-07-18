@@ -148,7 +148,8 @@ function getPythonSidebar () {
       'regular',
       'catch',
       'file',
-      'tool'
+      'tool',
+      'pro'
     ]
   }]
 }
