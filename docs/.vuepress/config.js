@@ -146,7 +146,8 @@ function getPythonSidebar () {
       'slice',
       'class',
       'regular',
-      'catch'
+      'catch',
+      'file'
     ]
   }]
 }
