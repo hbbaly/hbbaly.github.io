@@ -147,7 +147,8 @@ function getPythonSidebar () {
       'class',
       'regular',
       'catch',
-      'file'
+      'file',
+      'tool'
     ]
   }]
 }
