@@ -1,5 +1,9 @@
 # 文件操作
+## 文件和目录常用方法
 
+[文件和目录常用方法](https://www.runoob.com/python/os-file-methods.html)
+
+os 模块提供了非常丰富的方法用来处理文件和目录
 ## 文件读取
 
 ```py

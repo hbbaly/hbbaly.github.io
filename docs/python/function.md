@@ -1,6 +1,9 @@
 # 函数
+## python内置函数
 
-### 函数基础知识
+[参考](https://www.runoob.com/python/python-built-in-functions.html)
+
+## 函数基础知识
 
 ```py
 # -*- coding: utf-8 -*

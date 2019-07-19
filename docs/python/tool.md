@@ -62,3 +62,7 @@ print(d) # 20
 e = reduce(lambda x,y:x*y, a, 5)
 print(e) # 600
 ```
+
+## 日期和时间
+
+[日期和时间](https://www.runoob.com/python/python-date-time.html)
