@@ -29,6 +29,7 @@ module.exports = {
       { text: 'Python',link:'/python/basicTypes'},
       { text: 'DataBase',link:'/database/mongodb'},
       { text: 'Tools',link:'/tools/markdown'},
+      { text: 'Gather',link:'/gather/yum'},
     ],
     sidebar: {
       '/vue/': getVueSidebar(),
@@ -37,7 +38,8 @@ module.exports = {
       '/tools/':getToolSidebar(),
       '/typescript/':getTypescriptSidebar(),
       '/python/':getPythonSidebar(),
-      '/database/':getDataBaseSidebar()
+      '/database/':getDataBaseSidebar(),
+      '/gather/':getDataGather()
     },
     serviceWorker: {
       updatePopup: true, // Boolean | Object, 默认值是 undefined.
@@ -150,6 +152,15 @@ function getPythonSidebar () {
       'file',
       'tool',
       'pro'
+    ]
+  }]
+}
+function getDataGather () {
+  return [{
+    title: 'Gather',
+    collapsable: false,
+    children: [
+      'yum'
     ]
   }]
 }
