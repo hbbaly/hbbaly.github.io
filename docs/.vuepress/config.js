@@ -151,7 +151,8 @@ function getPythonSidebar () {
       'catch',
       'file',
       'tool',
-      'pro'
+      'pro',
+      'mysql'
     ]
   }]
 }
