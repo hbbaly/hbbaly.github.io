@@ -24,7 +24,7 @@ module.exports = {
     nav: [
       { text: 'Vue', link:'/vue/vue'},
       { text: 'React',link:'/react/react'},
-      { text: 'NodeJs',link:'/nodeJs/express'},
+      { text: 'NodeJs',link:'/nodeJs/nodeJs'},
       { text: 'TypeScript',link:'/typescript/base'},
       { text: 'Python',link:'/python/basicTypes'},
       { text: 'DataBase',link:'/database/mongodb'},
@@ -63,6 +63,7 @@ function getNodeSidebar () {
     title: 'NodeJs知识',
     collapsable: false,
     children: [
+      'nodeJs',
       'express',
       'express-example',
       'koa2',
