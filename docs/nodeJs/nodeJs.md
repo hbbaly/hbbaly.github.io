@@ -123,7 +123,7 @@ npm run dev
 
 ## nodemon与断点调试结合
 
-![case](./readme/1.png 'case')
+![case](../.vuepress/public/img/vs-1.png 'case')
 跟着步骤进行`vscode`调试配置
 
 ## 路由自动注册
