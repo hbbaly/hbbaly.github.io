@@ -162,7 +162,8 @@ function getDataGather () {
     title: 'Gather',
     collapsable: false,
     children: [
-      'yum'
+      'yum',
+      'copy'
     ]
   }]
 }
