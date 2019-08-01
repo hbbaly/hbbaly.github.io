@@ -153,7 +153,8 @@ function getPythonSidebar () {
       'file',
       'tool',
       'pro',
-      'mysql'
+      'mysql',
+      'flask'
     ]
   }]
 }
