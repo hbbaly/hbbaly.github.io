@@ -1037,4 +1037,219 @@ const Op = Sequelize.Op
 
 [Op.col]: 'user.organization_id' // = 'user'.'organization_id', 使用数据库语言特定的列标识符, 本例使用 PG
 ```
+## Instances - 实例
+
+### 构建非持久性实例
+
+为了创建定义类的实例,使用 build - 该方法将返回一个未保存的对象,你要明确地保存它
+
+```js
+const project = Project.build({
+  title: 'my awesome project',
+  description: 'woot woot. this will make me a rich man'
+})
+ 
+const task = Task.build({
+  title: 'specify the project idea',
+  description: 'bla',
+  deadline: new Date()
+})
+```
+
+要将其存储在数据库中,请使用 `save` 方法并捕获事件
+
+```js
+project.save().then(() => {
+  // 回调
+})
+ 
+task.save().catch(error => {
+  // 呃
+})
+ 
+// 还可以使用链式构建来保存和访问对象:
+Task
+  .build({ title: 'foo', description: 'bar', deadline: new Date() })
+  .save()
+  .then(anotherTask => {
+    // 你现在可以使用变量 anotherTask 访问当前保存的任务
+  })
+  .catch(error => {
+    // Ooops,做一些错误处理
+  })
+```
+
+### 创建持久性实例
+
+虽然使用 `.build()` 创建的实例需要显式的 `.save()` 调用来存储到 `database` 中; 但`.create()` 完全省略了这个要求,一旦调用就自动存储实例的数据.
+
+```js
+Task.create({ title: 'foo', description: 'bar', deadline: new Date() }).then(task => {
+  // 你现在可以通过变量 task 来访问新创建的 task
+})
+```
+
+### 更新 / 保存 / 持久化一个实例
+
+更改一些值并将更改保存到数据库
+
+```js
+// 方法 1
+task.title = 'a very different title now'
+task.save().then(() => {})
+ 
+// 方法 2
+task.update({
+  title: 'a very different title now'
+}).then(() => {})
+```
+
+### 销毁 / 删除持久性实例
+
+创建对象并获得对象的引用后,可以从数据库中删除它. 相关的方法是 `destroy`:
+
+```js
+Task.create({ title: 'a task' }).then(task => {
+  // 获取到 task 对象...
+  return task.destroy();
+}).then(() => {
+ // task 对象已被销毁
+})
+```
+
+### 恢复软删除的实例
+
+如果你使用 `paranoid:true` 软删除了模型的实例,之后想要撤消删除,请使用 `restore` 方法
+
+```js
+Task.create({ title: 'a task' }).then(task => {
+  // 进行软删除...
+  return task.destroy();
+}).then(() => {
+  // 恢复软删除...
+  return task.restore();
+})
+```
+### 一个实例的值
+
+如果你记录一个实例,你会注意到有很多额外的东西. 为了隐藏这些东西并将其减少到非常有趣的信息,你可以使用 `get` 属性. 使用选项 `plain: true` 调用它将只返回一个实例的值
+
+```js
+Person.create({
+  name: 'Rambow',
+  firstname: 'John'
+}).then(john => {
+  console.log(john.get({
+    plain: true
+  }))
+})
+ 
+// 结果:
+ 
+// { name: 'Rambow',
+//   firstname: 'John',
+//   id: 1,
+//   createdAt: Tue, 01 May 2012 19:12:16 GMT,
+//   updatedAt: Tue, 01 May 2012 19:12:16 GMT
+// }
+```
+
+### 重载实例
+
+如果你需要让你的实例同步,你可以使用 `reload` 方法. 它将从数据库中获取当前数据,并覆盖调用该方法的模型的属性
+
+```js
+Person.findOne({ where: { name: 'john' } }).then(person => {
+  person.name = 'jane'
+  console.log(person.name) // 'jane'
+ 
+  person.reload().then(() => {
+    console.log(person.name) // 'john'
+  })
+})
+```
+### 递增
+
+为了增加实例的值而不发生并发问题,你可以使用 `increment`.
+
+首先,你可以定义一个字段和要添加的值.
+
+```js
+User.findByPk(1).then(user => {
+  return user.increment('my-integer-field', {by: 2})
+}).then(user => {
+  // Postgres默认会返回更新的 user (除非通过设置禁用 { returning: false })
+  // 在其他方言中,你将需要调用 user.reload() 来获取更新的实例...
+})
+```
+然后,你可以定义多个字段和要添加到其中的值.
+```js
+User.findByPk(1).then(user => {
+  return user.increment([ 'my-integer-field', 'my-very-other-field' ], {by: 2})
+}).then(/* ... */)
+```
+最后,你可以定义一个包含字段及其递增值的对象.
+```js
+User.findByPk(1).then(user => {
+  return user.increment({
+    'my-integer-field':    2,
+    'my-very-other-field': 3
+  })
+}).then(/* ... */)
+```
+### 递减
+
+为了减少一个实例的值而不遇到并发问题,你可以使用 `decrement`.
+
+首先,你可以定义一个字段和要添加的值
+
+```js
+User.findByPk(1).then(user => {
+  return user.decrement('my-integer-field', {by: 2})
+}).then(user => {
+  // Postgres默认会返回更新的 user (除非通过设置禁用 { returning: false })
+  // 在其他方言中,你将需要调用 user.reload() 来获取更新的实例...
+})
+```
+
+## 批量操作(一次性创建,更新和销毁多行)
+
+除了更新单个实例之外,你还可以一次创建,更新和删除多个实例. 调用你需要的方法
+
+- Model.bulkCreate
+- Model.update
+- Model.destroy
+
+生成多个
+
+```js
+User.bulkCreate([
+  { username: 'barfooz', isAdmin: true },
+  { username: 'foo', isAdmin: true },
+  { username: 'bar', isAdmin: false }
+]).then(() => { // 注意: 这里没有凭据, 然而现在你需要...
+  return User.findAll();
+}).then(users => {
+  console.log(users) // ... 以获取 user 对象的数组
+})
+```
+
+一次更新几行
+
+```js
+Task.update(
+    { status: 'inactive' }, /* 设置属性的值 */
+    { where: { subject: 'programming' }} /* where 规则 */
+  );
+```
+删除多行
+
+```js
+Task.destroy({
+    where: {
+      subject: 'programming'
+    },
+    truncate: true /* 这将忽 where 并用 truncate table 替代  */
+  });
+```
 
