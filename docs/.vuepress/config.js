@@ -135,7 +135,8 @@ function getToolSidebar () {
       'git',
       'webpack',
       'gulp',
-      'jest'
+      'jest',
+      'moment'
     ]
   }]
 }

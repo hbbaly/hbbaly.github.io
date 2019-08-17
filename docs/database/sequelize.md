@@ -1253,3 +1253,7 @@ Task.destroy({
   });
 ```
 
+
+
+
+[参考资料](https://github.com/sequelize/sequelize)
