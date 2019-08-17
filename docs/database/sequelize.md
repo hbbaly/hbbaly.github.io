@@ -612,4 +612,429 @@ Project.findAll({
 })
 ```
 
+### 复合过滤 / OR / NOT 查询
+
+你可以使用多层嵌套的 `AND`,`OR` 和 `NOT` 条件进行一个复合的 `where` 查询.
+
+
+```js
+Project.findOne({
+  where: {
+    name: 'a project',
+    [Op.or]: [
+      { id: [1,2,3] },
+      { id: { [Op.gt]: 10 } }
+    ]
+  }
+})
+
+Project.findOne({
+  where: {
+    name: 'a project',
+    id: {
+      [Op.or]: [
+        [1,2,3],
+        { [Op.gt]: 10 }
+      ]
+    }
+  }
+})
+```
+
+### 用限制,偏移,顺序和分组操作数据集
+
+```js
+// 限制查询的结果
+Project.findAll({ limit: 10 })
+
+// 跳过前10个元素
+Project.findAll({ offset: 10 })
+
+// 跳过前10个元素,并获取2个
+Project.findAll({ offset: 10, limit: 2 })
+
+Project.findAll({order: [['title', 'DESC']]})
+// 生成 ORDER BY title DESC
+
+Project.findAll({group: 'name'})
+// 生成 GROUP BY name
+```
+
+```js
+something.findOne({
+  order: [
+    // 将返回 `name`
+    ['name'],
+    // 将返回 `username` DESC
+    ['username', 'DESC'],
+    // 将返回 max(`age`)
+    sequelize.fn('max', sequelize.col('age')),
+    // 将返回 max(`age`) DESC
+    [sequelize.fn('max', sequelize.col('age')), 'DESC'],
+    // 将返回 otherfunction(`col1`, 12, 'lalala') DESC
+    [sequelize.fn('otherfunction', sequelize.col('col1'), 12, 'lalala'), 'DESC'],
+    // 将返回 otherfunction(awesomefunction(`col`)) DESC,这个嵌套是可以无限的！
+    [sequelize.fn('otherfunction', sequelize.fn('awesomefunction', sequelize.col('col'))), 'DESC']
+  ]
+})
+```
+
+### count - 计算数据库中元素的出现次数
+
+```js
+Project.count().then(c => {
+  console.log("There are " + c + " projects!")
+})
+
+Project.count({ where: {'id': {[Op.gt]: 25}} }).then(c => {
+  console.log("There are " + c + " projects with an id greater than 25.")
+})
+```
+
+### max - 获取特定表中特定属性的最大值
+
+```js
+/*
+   我们假设3个具有属性年龄的对象.
+   第一个是10岁,
+   第二个是5岁,
+   第三个是40岁.
+*/
+Project.max('age').then(max => {
+  // 将返回 40
+})
+
+Project.max('age', { where: { age: { [Op.lt]: 20 } } }).then(max => {
+  // 将会是 10
+})
+```
+### min - 获取特定表中特定属性的最小值
+
+```js
+/*
+   我们假设3个具有属性年龄的对象.
+   第一个是10岁,
+   第二个是5岁,
+   第三个是40岁.
+*/
+Project.min('age').then(min => {
+  // 将返回 5
+})
+
+Project.min('age', { where: { age: { [Op.gt]: 5 } } }).then(min => {
+  // 将会是 10
+})
+```
+
+### sum - 特定属性的值求和
+
+```js
+/*
+   我们假设3个具有属性年龄的对象.
+   第一个是10岁,
+   第二个是5岁,
+   第三个是40岁.
+*/
+Project.sum('age').then(sum => {
+  // 将返回 55
+})
+
+Project.sum('age', { where: { age: { [Op.gt]: 5 } } }).then(sum => {
+  // 将会是 50
+})
+```
+
+## Hooks - 钩子
+
+`Hook`(也称为生命周期事件)是执行 `sequelize` 调用之前和之后调用的函数
+
+```js
+const hookTypes = {
+  beforeValidate: { params: 2 },
+  afterValidate: { params: 2 },
+  validationFailed: { params: 3 },
+  beforeCreate: { params: 2 },
+  afterCreate: { params: 2 },
+  beforeDestroy: { params: 2 },
+  afterDestroy: { params: 2 },
+  beforeRestore: { params: 2 },
+  afterRestore: { params: 2 },
+  beforeUpdate: { params: 2 },
+  afterUpdate: { params: 2 },
+  beforeSave: { params: 2, proxies: ['beforeUpdate', 'beforeCreate'] },
+  afterSave: { params: 2, proxies: ['afterUpdate', 'afterCreate'] },
+  beforeUpsert: { params: 2 },
+  afterUpsert: { params: 2 },
+  beforeBulkCreate: { params: 2 },
+  afterBulkCreate: { params: 2 },
+  beforeBulkDestroy: { params: 1 },
+  afterBulkDestroy: { params: 1 },
+  beforeBulkRestore: { params: 1 },
+  afterBulkRestore: { params: 1 },
+  beforeBulkUpdate: { params: 1 },
+  afterBulkUpdate: { params: 1 },
+  beforeFind: { params: 1 },
+  beforeFindAfterExpandIncludeAll: { params: 1 },
+  beforeFindAfterOptions: { params: 1 },
+  afterFind: { params: 2 },
+  beforeCount: { params: 1 },
+  beforeDefine: { params: 2, sync: true, noModel: true },
+  afterDefine: { params: 1, sync: true, noModel: true },
+  beforeInit: { params: 2, sync: true, noModel: true },
+  afterInit: { params: 1, sync: true, noModel: true },
+  beforeAssociate: { params: 2, sync: true },
+  afterAssociate: { params: 2, sync: true },
+  beforeConnect: { params: 1, noModel: true },
+  afterConnect: { params: 2, noModel: true },
+  beforeDisconnect: { params: 1, noModel: true },
+  afterDisconnect: { params: 1, noModel: true },
+  beforeSync: { params: 1 },
+  afterSync: { params: 1 },
+  beforeBulkSync: { params: 1 },
+  afterBulkSync: { params: 1 },
+  beforeQuery: { params: 2 },
+  afterQuery: { params: 2 }
+```
+
+### 声明 Hook
+
+`Hook` 的参数通过引用传递. 这意味着你可以更改值,这将反映在`insert` / `update`语句中. `Hook` 可能包含异步动作 - 在这种情况下,`Hook` 函数应该返回一个 `promise`.
+
+```js
+// 方法1 通过 .init() 方法
+class User extends Model {}
+User.init({
+  username: DataTypes.STRING,
+  mood: {
+    type: DataTypes.ENUM,
+    values: ['happy', 'sad', 'neutral']
+  }
+}, {
+  hooks: {
+    beforeValidate: (user, options) => {
+      user.mood = 'happy';
+    },
+    afterValidate: (user, options) => {
+      user.username = 'Toni';
+    }
+  },
+  sequelize
+});
+
+// 方法2 通过 .addHook() 方法
+User.addHook('beforeValidate', (user, options) => {
+  user.mood = 'happy';
+});
+
+User.addHook('afterValidate', 'someCustomName', (user, options) => {
+  return Promise.reject(new Error("I'm afraid I can't let you do that!"));
+});
+
+// 方法3 通过直接方法
+User.beforeCreate((user, options) => {
+  return hashPassword(user.password).then(hashedPw => {
+    user.password = hashedPw;
+  });
+});
+
+User.afterValidate('myHookAfter', (user, options) => {
+  user.username = 'Toni';
+});
+```
+
+### 移除 Hook
+
+只能删除有名称参数的 `hook`.
+
+```js
+class Book extends Model {}
+Book.init({
+  title: DataTypes.STRING
+}, { sequelize });
+
+Book.addHook('afterCreate', 'notifyUsers', (book, options) => {
+  // ...
+});
+
+Book.removeHook('afterCreate', 'notifyUsers');
+```
+
+### 全局 / 通用 Hook
+
+
+```js
+const sequelize = new Sequelize(..., {
+    define: {
+        hooks: {
+            beforeCreate: () => {
+                // 做些什么
+            }
+        }
+    }
+});
+```
+这将为所有模型添加一个默认 `hook`,如果模型没有定义自己的 `beforeCreate hook`,那么它将运行.
+```js
+class User extends Model {}
+User.init({}, { sequelize });
+class Project extends Model {}
+Project.init({}, {
+    hooks: {
+        beforeCreate: () => {
+            // 做些其它什么
+        }
+    },
+    sequelize
+});
+
+User.create() // 运行全局 hook
+Project.create() // 运行其自身的 hook (因为全局 hook 被覆盖),
+```
+
+无论模型是否指定了自己的 `beforeCreate hook`. 本地 `hook` 总是在全局 `hook` 之前运行
+
+### 实例 Hook
+
+当你编辑单个对象时,以下 `hook` 将触发
+
+```js
+beforeValidate
+afterValidate or validationFailed
+beforeCreate / beforeUpdate / beforeSave  / beforeDestroy
+afterCreate / afterUpdate / afterSave / afterDestroy
+```
+
+### 模型 Hook
+有时,你将一次编辑多个记录,方法是使用模型上的 `bulkCreate`, `update`, `destroy` 方法. 当你使用以下方法之一时,将会触发以下内容:
+
+```js
+beforeBulkCreate(instances, options)
+beforeBulkUpdate(options)
+beforeBulkDestroy(options)
+afterBulkCreate(instances, options)
+afterBulkUpdate(options)
+afterBulkDestroy(options)
+```
+
+## Querying - 查询
+
+### 属性
+
+想要只选择某些属性,可以使用 `attributes` 选项. 通常是传递一个数组
+
+```js
+Model.findAll({
+  attributes: ['foo', 'bar']
+});
+```
+
+属性可以使用嵌套数组来重命名
+
+```js
+Model.findAll({
+  attributes: ['foo', ['bar', 'baz']]
+});
+```
+
+### Where
+
+无论你是通过 `findAll/find` 或批量 `updates/destroys` 进行查询,都可以传递一个 `where` 对象来过滤查询.
+
+`where` 通常用 `attribute:value` 键值对获取一个对象
+
+```js
+const Op = Sequelize.Op;
+
+Post.findAll({
+  where: {
+    authorId: 2
+  }
+});
+// SELECT * FROM post WHERE authorId = 2
+
+Post.findAll({
+  where: {
+    authorId: 12,
+    status: 'active'
+  }
+});
+// SELECT * FROM post WHERE authorId = 12 AND status = 'active';
+
+Post.findAll({
+  where: {
+    [Op.or]: [{authorId: 12}, {authorId: 13}]
+  }
+});
+// SELECT * FROM post WHERE authorId = 12 OR authorId = 13;
+
+Post.findAll({
+  where: {
+    authorId: {
+      [Op.or]: [12, 13]
+    }
+  }
+});
+// SELECT * FROM post WHERE authorId = 12 OR authorId = 13;
+
+Post.destroy({
+  where: {
+    status: 'inactive'
+  }
+});
+// DELETE FROM post WHERE status = 'inactive';
+
+Post.update({
+  updatedAt: null,
+}, {
+  where: {
+    deletedAt: {
+      [Op.ne]: null
+    }
+  }
+});
+// UPDATE post SET updatedAt = null WHERE deletedAt NOT NULL;
+
+Post.findAll({
+  where: sequelize.where(sequelize.fn('char_length', sequelize.col('status')), 6)
+});
+// SELECT * FROM post WHERE char_length(status) = 6;
+```
+
+### 操作符
+
+```js
+const Op = Sequelize.Op
+
+[Op.and]: {a: 5}           // 且 (a = 5)
+[Op.or]: [{a: 5}, {a: 6}]  // (a = 5 或 a = 6)
+[Op.gt]: 6,                // id > 6
+[Op.gte]: 6,               // id >= 6
+[Op.lt]: 10,               // id < 10
+[Op.lte]: 10,              // id <= 10
+[Op.ne]: 20,               // id != 20
+[Op.eq]: 3,                // = 3
+[Op.not]: true,            // 不是 TRUE
+[Op.between]: [6, 10],     // 在 6 和 10 之间
+[Op.notBetween]: [11, 15], // 不在 11 和 15 之间
+[Op.in]: [1, 2],           // 在 [1, 2] 之中
+[Op.notIn]: [1, 2],        // 不在 [1, 2] 之中
+[Op.like]: '%hat',         // 包含 '%hat'
+[Op.notLike]: '%hat'       // 不包含 '%hat'
+[Op.iLike]: '%hat'         // 包含 '%hat' (不区分大小写)  (仅限 PG)
+[Op.notILike]: '%hat'      // 不包含 '%hat'  (仅限 PG)
+[Op.startsWith]: 'hat'     // 类似 'hat%'
+[Op.endsWith]: 'hat'       // 类似 '%hat'
+[Op.substring]: 'hat'      // 类似 '%hat%'
+[Op.regexp]: '^[h|a|t]'    // 匹配正则表达式/~ '^[h|a|t]' (仅限 MySQL/PG)
+[Op.notRegexp]: '^[h|a|t]' // 不匹配正则表达式/!~ '^[h|a|t]' (仅限 MySQL/PG)
+[Op.iRegexp]: '^[h|a|t]'    // ~* '^[h|a|t]' (仅限 PG)
+[Op.notIRegexp]: '^[h|a|t]' // !~* '^[h|a|t]' (仅限 PG)
+[Op.like]: { [Op.any]: ['cat', 'hat']} // 包含任何数组['cat', 'hat'] - 同样适用于 iLike 和 notLike
+[Op.overlap]: [1, 2]       // && [1, 2] (PG数组重叠运算符)
+[Op.contains]: [1, 2]      // @> [1, 2] (PG数组包含运算符)
+[Op.contained]: [1, 2]     // <@ [1, 2] (PG数组包含于运算符)
+[Op.any]: [2,3]            // 任何数组[2, 3]::INTEGER (仅限PG)
+
+[Op.col]: 'user.organization_id' // = 'user'.'organization_id', 使用数据库语言特定的列标识符, 本例使用 PG
+```
 
