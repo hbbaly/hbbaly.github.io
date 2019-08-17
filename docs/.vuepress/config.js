@@ -61,7 +61,7 @@ module.exports = {
 function getNodeSidebar () {
   return [{
     title: 'NodeJs知识',
-    collapsable: false,
+    collapsable: true,
     children: [
       'nodeJs',
       'express',
@@ -74,20 +74,21 @@ function getNodeSidebar () {
 function getDataBaseSidebar () {
   return [{
     title: '数据库',
-    collapsable: false,
+    collapsable: true,
     children: [
      'mongodb',
      'mongoose',
      'example',
      'mysql',
-     'mysql-pro'
+     'mysql-pro',
+     'sequelize'
     ]
   }]
 }
 function getVueSidebar () {
       return [{
         title: 'Vue知识',
-        collapsable: false,
+        collapsable: true,
         children: [
          'vue',
          'vue-example'
@@ -97,7 +98,7 @@ function getVueSidebar () {
 function getTypescriptSidebar () {
   return [{
     title: 'TypeScript',
-    collapsable: false,
+    collapsable: true,
     children: [
       'base',
       'interfaces',
@@ -117,7 +118,7 @@ function getTypescriptSidebar () {
 function getReactSidebar () {
   return [{
     title: 'React知识',
-    collapsable: false,
+    collapsable: true,
     children: [
       'react',
       'react-router',
@@ -128,7 +129,7 @@ function getReactSidebar () {
 function getToolSidebar () {
   return [{
     title: 'tools',
-    collapsable: false,
+    collapsable: true,
     children: [
       'markdown',
       'git',
@@ -141,7 +142,7 @@ function getToolSidebar () {
 function getPythonSidebar () {
   return [{
     title: 'Python',
-    collapsable: false,
+    collapsable: true,
     children: [
       'basicTypes',
       'variable',
@@ -161,7 +162,7 @@ function getPythonSidebar () {
 function getDataGather () {
   return [{
     title: 'Gather',
-    collapsable: false,
+    collapsable: true,
     children: [
       'yum',
       'copy'
