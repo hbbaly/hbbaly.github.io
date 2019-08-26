@@ -91,7 +91,8 @@ function getVueSidebar () {
         collapsable: true,
         children: [
          'vue',
-         'vue-example'
+         'vue-example',
+         'vue-cli3'
         ]
       }]
 }
