@@ -149,3 +149,11 @@ npx vue-cli-service serve
   --mode    指定环境模式 (默认值：development)
   ```
 你可以使用 `vue-cli-service inspect` 来审查一个 `Vue CLI` 项目的 `webpack config`。
+
+## 开发
+
+
+### 浏览器兼容性
+
+#### browserslist
+你会发现有 `package.json` 文件里的 `browserslist 字段 (或一个单独的 .browserslistrc 文件)，指定了项目的目标浏览器的范围。这个值会被 @babel/preset-env 和 Autoprefixer 用来确定需要转译的 JavaScript 特性和需要添加的 CSS 浏览器前缀。
