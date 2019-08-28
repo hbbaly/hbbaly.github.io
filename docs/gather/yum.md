@@ -82,7 +82,7 @@ ln -s /app/nodejs/bin/pm2 /usr/local/bin/
 
 然后输入命令就可以了
 
-## 安装Nginx
+## Nginx
 
 ### 安装编译工具及库文件
 
