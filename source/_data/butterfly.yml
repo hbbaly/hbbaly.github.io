@@ -224,7 +224,7 @@ gitalk:
   enable: true
   client_id: 11ced11d44bc7f521532
   client_secret: 802696976891825a1a72d80c8c0c68ddc89406f1
-  repo: hexo-blog
+  repo: hbbaly.github.io
   owner: hbbaly
   admin: hbbaly
 ####   Using this js for redirect to gitalk container after login
@@ -419,7 +419,7 @@ busuanzi:
 # 也可以寫成 年/月/日 時間
 runtimeshow:
   enable: true
-  start_date: 6/7/2017 00:00:00
+  start_date: 4/1/2016 00:00:00
 
 
 ####   右下角按鈕  ####
