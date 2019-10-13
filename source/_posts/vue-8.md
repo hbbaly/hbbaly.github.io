@@ -1,8 +1,7 @@
 ---
 title: axios封装
 comments: true
-description: axios封装， 这里的需求是在特定的请求的时候需要携带`token`， 并且检测`token`是否过期，过期刷新，或者直接请求，
-封装了一些`axios`常用的状态
+description: axios封装携带token并且检测token是否过期
 tags: "Vue"
 categories: "Vue"
 keywords: vue, Vue.js 
