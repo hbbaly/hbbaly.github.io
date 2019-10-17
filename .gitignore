@@ -1,4 +1,4 @@
 node_modules
 docs/.vuepress/dist/
 public
-.deploy_git
+# .deploy_git
