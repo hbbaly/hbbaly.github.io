@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>markdown语法 | hbbaly</title><meta name="description" content="markdown"><meta name="keywords" content="md"><meta name="author" content="hbbaly"><meta name="copyright" content="hbbaly"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://hbbaly.github.io/2016/12/20/md/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="markdown语法"><meta name="twitter:description" content="markdown"><meta name="twitter:image" content="https://avatars1.githubusercontent.com/u/34227573?s=460&amp;v=4"><meta property="og:type" content="article"><meta property="og:title" content="markdown语法"><meta property="og:url" content="https://hbbaly.github.io/2016/12/20/md/"><meta property="og:site_name" content="hbbaly"><meta property="og:description" content="markdown"><meta property="og:image" content="https://avatars1.githubusercontent.com/u/34227573?s=460&amp;v=4"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="moment基本用法" href="https://hbbaly.github.io/2016/12/20/moment/"><link rel="next" title="移动端浏览器的判别" href="https://hbbaly.github.io/2016/10/22/js-12/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://hbbaly.github.io/","msgToTraditionalChinese":"简","msgToSimplifiedChinese":"繁"},
+  highlight_copy: 'true',
+  highlight_lang: 'true',
+  highlight_shrink: 'false',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#header"><span class="toc-number">1.</span> <span class="toc-text">标题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#横线"><span class="toc-number">1.1.</span> <span class="toc-text">横线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文本"><span class="toc-number">1.2.</span> <span class="toc-text">文本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">1.3.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">1.4.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#超链接"><span class="toc-number">1.5.</span> <span class="toc-text">超链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锚点"><span class="toc-number">1.6.</span> <span class="toc-text">锚点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无序列表"><span class="toc-number">1.7.</span> <span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有序列表"><span class="toc-number">1.8.</span> <span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表嵌套"><span class="toc-number">1.9.</span> <span class="toc-text">列表嵌套</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-number">1.10.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.11.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程图"><span class="toc-number">1.12.</span> <span class="toc-text">流程图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图表方向"><span class="toc-number">1.12.0.1.</span> <span class="toc-text">图表方向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#节点定义"><span class="toc-number">1.12.0.2.</span> <span class="toc-text">节点定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#节点间的连线"><span class="toc-number">1.12.0.3.</span> <span class="toc-text">节点间的连线</span></a></li></ol></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/Photo/post.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">hbbaly</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><div class="menu_mask"></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad avatar_img" src="https://avatars1.githubusercontent.com/u/34227573?s=460&amp;v=4" onerror="onerror=null;src='/img/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item text-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">55</div></a></div></div><div class="mobile_data_item text-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">14</div></a></div></div><div class="mobile_data_item text-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">markdown语法</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2016-12-20<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-10-18</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/md/">md</a></span></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="header">标题</h1>
+
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 一级标题 --&gt;</span></span></span><br><span class="line"><span class="section"># TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 二级级标题 --&gt;</span></span></span><br><span class="line"><span class="section">## TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 三级标题 --&gt;</span></span></span><br><span class="line"><span class="section">### TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 四级标题 --&gt;</span></span></span><br><span class="line"><span class="section">#### TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 五级标题 --&gt;</span></span></span><br><span class="line"><span class="section">#####  TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 六级标题 --&gt;</span></span></span><br><span class="line"><span class="section">###### TEST</span></span><br><span class="line"><span class="section">####### TEST</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 最多支持六级标题 --&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="横线"><a href="#横线" class="headerlink" title="横线"></a>横线</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- *** --&gt;</span></span></span><br><span class="line"><span class="emphasis">***</span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- --- --&gt;</span></span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- ___ --&gt;</span></span></span><br><span class="line"><span class="emphasis">___</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 普通文本 --&gt;</span></span></span><br><span class="line"></span><br><span class="line">这是markdown 测试文本</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 单行文本 已一个tab间距或者四个空格开头 --&gt;</span></span></span><br><span class="line"></span><br><span class="line">  这个是单行文本</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 加粗字体 --&gt;</span></span></span><br><span class="line"><span class="strong">**加粗字体**</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 斜体加粗 --&gt;</span></span></span><br><span class="line"><span class="strong">***斜体加粗**</span>*</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 倾斜 --&gt;</span></span></span><br><span class="line"><span class="emphasis">*倾斜文字*</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 删除线 --&gt;</span></span></span><br><span class="line">~~删除线~~</span><br></pre></td></tr></table></figure>
+
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 在文字前面加上  &gt;</span></span> --&gt;</span><br><span class="line">&gt;引用文字</span><br><span class="line">&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;引用文字</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;引用文字</span><br></pre></td></tr></table></figure>
+
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- ![图片alt](图片地址 '图片title') --&gt;</span></span></span><br><span class="line">![<span class="string">图标</span>](<span class="link">src  '随意试试'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img alt="图标" title="随意试试" data-src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1544495576&di=d0d30b69693d5cadd72667272c6ebaa0&src=http://img1c.xgo-img.com.cn/pics/1503/1502063.jpg" class="lozad"></p>
+<h2 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- [超链接名](超链接地址 "超链接title") --&gt;</span></span></span><br><span class="line">[<span class="string">我的github</span>](<span class="link">https://github.com/hbbaly '我的github'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/hbbaly" title="我的github" target="_blank" rel="noopener">我的github</a></p>
+<h2 id="锚点"><a href="#锚点" class="headerlink" title="锚点"></a>锚点</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 顶部html  <span class="xml"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"header"</span>&gt;</span></span>markdown 学习笔记<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- [回到顶部](#readme) --&gt;</span></span></span><br><span class="line">[<span class="string">回到顶部</span>](<span class="link">#header</span>)</span><br></pre></td></tr></table></figure>
+
+<p><a href="#header">回到顶部</a></p>
+<h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- -+* 都可以 --&gt;</span></span></span><br><span class="line"><span class="bullet">- </span>无序列表</span><br><span class="line"><span class="bullet">+ </span>无序列表</span><br><span class="line"><span class="bullet">* </span>无序列表</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>无序列表</li>
+</ul>
+<ul>
+<li>无序列表</li>
+</ul>
+<ul>
+<li>无序列表</li>
+</ul>
+<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 数字加点 序号跟内容之间要有空格 --&gt;</span></span></span><br><span class="line">1.列表内容</span><br><span class="line"></span><br><span class="line">2.列表内容</span><br><span class="line"></span><br><span class="line">3.列表内容</span><br></pre></td></tr></table></figure>
+
+<p>1.列表内容</p>
+<p>2.列表内容</p>
+<p>3.列表内容</p>
+<h2 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 列表嵌套上一级和下一级之间敲三个空格即可 --&gt;</span></span></span><br><span class="line">1.列表内容</span><br><span class="line"><span class="bullet">  - </span>这是嵌套列表</span><br><span class="line"><span class="bullet">  + </span>这是嵌套列表</span><br></pre></td></tr></table></figure>
+
+<p>1.列表内容</p>
+<ul>
+<li>这是嵌套列表</li>
+</ul>
+<ul>
+<li>这是嵌套列表</li>
+</ul>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!--</span></span></span><br><span class="line"><span class="xml">  表头|表头|表头</span></span><br><span class="line"><span class="xml">---|:--:|---:</span></span><br><span class="line"><span class="xml">内容|内容|内容</span></span><br><span class="line"><span class="xml">内容|内容|内容</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">第二行分割表头和内容。</span></span><br><span class="line"><span class="xml">- 有一个就行，为了对齐，多加了几个</span></span><br><span class="line"><span class="xml">文字默认居左</span></span><br><span class="line"><span class="xml">-两边加：表示文字居中</span></span><br><span class="line"><span class="xml">-右边加：表示文字居右</span></span><br><span class="line"><span class="xml">--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|姓名|性别|年龄|</span><br><span class="line">|---|:--:|---:|</span><br><span class="line">|否过|请问|WDEF|</span><br><span class="line">|AFSDF |内WDDEFD容|SDSF内容|</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th align="center">性别</th>
+<th align="right">年龄</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>否过</td>
+<td align="center">请问</td>
+<td align="right">WDEF</td>
+</tr>
+<tr>
+<td>AFSDF</td>
+<td align="center">内WDDEFD容</td>
+<td align="right">SDSF内容</td>
+</tr>
+</tbody></table>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 单行代码 --&gt;</span></span></span><br><span class="line"><span class="code">`&lt;h1&gt;标题&lt;/h1&gt;`</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 多行代码 三个反引号--&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<pre><code>  &lt;div&gt;
+    &lt;p&gt;多行代码&lt;/p&gt;
+  &lt;/div&gt;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">`&lt;h1&gt;标题&lt;/h1&gt;`</span><br><span class="line"></span><br><span class="line">```html</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;p&gt;多行代码&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br></pre></td></tr></table></figure></code></pre><h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p>::: danger<br>  推荐使用Xmind画流程图<br>:::</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD;</span><br><span class="line">    id(A)--&gt;B;</span><br><span class="line">    A--&gt;C;</span><br><span class="line">    B--&gt;D;</span><br><span class="line">    C--&gt;D;</span><br><span class="line">    E--&gt;F;</span><br><span class="line">    F--&gt;A;</span><br></pre></td></tr></table></figure>
+
+<p>graph 方向描述<br>    图表中的其他语句…</p>
+<h4 id="图表方向"><a href="#图表方向" class="headerlink" title="图表方向"></a>图表方向</h4><table>
+<thead>
+<tr>
+<th>用词</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TB</td>
+<td align="center">从上到下</td>
+</tr>
+<tr>
+<td>BT</td>
+<td align="center">从下到上</td>
+</tr>
+<tr>
+<td>RL</td>
+<td align="center">从右到左</td>
+</tr>
+<tr>
+<td>LR</td>
+<td align="center">从左到右</td>
+</tr>
+</tbody></table>
+<h4 id="节点定义"><a href="#节点定义" class="headerlink" title="节点定义"></a>节点定义</h4><table>
+<thead>
+<tr>
+<th>表述</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id[文字]</td>
+<td align="center">矩形节点</td>
+</tr>
+<tr>
+<td>id(文字)</td>
+<td align="center">圆角矩形节点</td>
+</tr>
+<tr>
+<td>id((文字))</td>
+<td align="center">圆形节点</td>
+</tr>
+<tr>
+<td>id&gt;文字]</td>
+<td align="center">右向旗帜状节点</td>
+</tr>
+<tr>
+<td>id{文字}</td>
+<td align="center">菱形节点</td>
+</tr>
+</tbody></table>
+<h4 id="节点间的连线"><a href="#节点间的连线" class="headerlink" title="节点间的连线"></a>节点间的连线</h4><table>
+<thead>
+<tr>
+<th>表述</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;</td>
+<td align="center">添加尾部箭头</td>
+</tr>
+<tr>
+<td>-</td>
+<td align="center">不添加尾部箭头</td>
+</tr>
+<tr>
+<td>–</td>
+<td align="center">单线</td>
+</tr>
+<tr>
+<td>–text–</td>
+<td align="center">单线上加文字</td>
+</tr>
+<tr>
+<td>==</td>
+<td align="center">粗线</td>
+</tr>
+<tr>
+<td>==text==</td>
+<td align="center">粗线加文字</td>
+</tr>
+<tr>
+<td>-.-</td>
+<td align="center">虚线</td>
+</tr>
+<tr>
+<td>-.text.-</td>
+<td align="center">虚线加文字</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">  A==&gt;id(D);</span><br><span class="line">  id((B))--text--&gt;C;</span><br><span class="line">  C==text==&gt;id&#123;D&#125;;</span><br><span class="line">  E-.-&gt;F</span><br></pre></td></tr></table></figure>
+
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">hbbaly</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://hbbaly.github.io/2016/12/20/md/">https://hbbaly.github.io/2016/12/20/md/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://hbbaly.github.io">hbbaly</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/md/">md    </a></div><div class="post_share"><div class="social-share" data-image="https://avatars1.githubusercontent.com/u/34227573?s=460&amp;v=4" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2016/12/20/moment/"><img class="prev_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>moment基本用法</span></div></a></div><div class="next-post pull-right"><a href="/2016/10/22/js-12/"><img class="next_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>移动端浏览器的判别</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '11ced11d44bc7f521532',
+  clientSecret: '802696976891825a1a72d80c8c0c68ddc89406f1',
+  repo: 'hbbaly.github.io',
+  owner: 'hbbaly',
+  admin: 'hbbaly',
+  id: md5(decodeURI(location.pathname)),
+  language: ''
+})
+gitalk.render('gitalk-container')</script></div></div></div><footer><div id="footer"><div class="copyright">&copy;2017 - 2019 By hbbaly</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://hbbaly.github.io/">blog</a>!</div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">简</a><i class="nightshift fa fa-moon-o" id="nightshift" title="夜间模式"></i></section><div class=" " id="post_bottom"><div id="post_bottom_items"><a id="mobile_to_comment" href="#post-comment"><i class="mobile_scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#header"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">标题</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#横线"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">横线</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#文本"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">文本</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#引用"><span class="toc_mobile_items-number">1.3.</span> <span class="toc_mobile_items-text">引用</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#图片"><span class="toc_mobile_items-number">1.4.</span> <span class="toc_mobile_items-text">图片</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#超链接"><span class="toc_mobile_items-number">1.5.</span> <span class="toc_mobile_items-text">超链接</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#锚点"><span class="toc_mobile_items-number">1.6.</span> <span class="toc_mobile_items-text">锚点</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#无序列表"><span class="toc_mobile_items-number">1.7.</span> <span class="toc_mobile_items-text">无序列表</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#有序列表"><span class="toc_mobile_items-number">1.8.</span> <span class="toc_mobile_items-text">有序列表</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#列表嵌套"><span class="toc_mobile_items-number">1.9.</span> <span class="toc_mobile_items-text">列表嵌套</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#表格"><span class="toc_mobile_items-number">1.10.</span> <span class="toc_mobile_items-text">表格</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#代码"><span class="toc_mobile_items-number">1.11.</span> <span class="toc_mobile_items-text">代码</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#流程图"><span class="toc_mobile_items-number">1.12.</span> <span class="toc_mobile_items-text">流程图</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#图表方向"><span class="toc_mobile_items-number">1.12.0.1.</span> <span class="toc_mobile_items-text">图表方向</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#节点定义"><span class="toc_mobile_items-number">1.12.0.2.</span> <span class="toc_mobile_items-text">节点定义</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#节点间的连线"><span class="toc_mobile_items-number">1.12.0.3.</span> <span class="toc_mobile_items-text">节点间的连线</span></a></li></ol></li></ol></li></ol></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/nightshift.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script></body></html>
