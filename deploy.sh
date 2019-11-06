@@ -17,9 +17,9 @@ git add -A
 git commit -m 'ADD: ts'
 
 # 如果发布到 https://<USERNAME>.github.io
-# git push -f git@github.com:hbbaly/hbbaly.github.io.git master
+git push -f git@github.com:hbbaly/hbbaly.github.io.git masters
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:hbbaly/hbbaly.github.io/docs.git master:gh-pages
+# git push -f git@github.com:hbbaly/hbbaly.github.io/docs.git master:gh-pages
 
 cd -
