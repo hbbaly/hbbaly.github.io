@@ -344,4 +344,5 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 
 你可以把 useMemo 作为性能优化的手段，但不要把它当成语义上的保证。将来，React 可能会选择“遗忘”以前的一些 memoized 值，并在下次渲染时重新计算它们，比如为离屏组件释放内存。先编写在没有 useMemo 的情况下也可以执行的代码 —— 之后再在你的代码中添加 useMemo，以达到优化性能的目的。
 
+**`useCallback` 不会执行第一个参数函数，而是将它返回给你，而 `useMemo` 会执行第一个函数并且将函数执行结果返回给你**。
 [源码参考](https://codesandbox.io/s/crazy-northcutt-b10oq)
