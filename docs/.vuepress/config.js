@@ -123,7 +123,8 @@ function getReactSidebar () {
     children: [
       'react',
       'react-router',
-      'redux'
+      'redux',
+      'cloud-music'
     ]
   }]
 }
