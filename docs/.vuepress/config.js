@@ -170,5 +170,23 @@ function getDataGather () {
       'yum',
       'copy'
     ]
+  },
+  {
+    title: 'js小知识',
+    collapsable: true,
+    children: [
+      '1',
+      '2',
+      '3'
+    ]
+  },
+  {
+    title: 'css小知识',
+    collapsable: true,
+    children: [
+      'css-1',
+      'css-2',
+      'css-3'
+    ]
   }]
 }
