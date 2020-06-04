@@ -6,7 +6,7 @@
 
 ```js
 // Node >= 6 and npm >= 5.2
-npx create-`React`-app my-app
+npx create-react-app my-app
 cd my-app
 npm start
 ```
@@ -44,12 +44,14 @@ npm start
 组件可以将UI切分成一些独立的、可复用的部件，这样你就只需专注于构建每一个单独的部件
 
 定义一个组件最简单的方式是使用JavaScript函数
+
 ```js
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 ```
-该函数是一个有效的React组件，它接收一个单一的“props”对象并返回了一个React元素。我们之所以称这种类型的组件为**函数定义组件**
+
+该函数是一个有效的`React`组件，它接收一个单一的“props”对象并返回了一个`React`元素。我们之所以称这种类型的组件为**函数定义组件**
 
 我们也可以使用 `ES6 class` 来定义一个组件
 
@@ -67,7 +69,7 @@ class Welcome extends React.Component {
 
 ![生命周期](../.vuepress/public/img/react-1.png)
 
-```js
+```md
 componentWillMount   // 组件挂载之前
 
  render  //  组件挂载
@@ -132,6 +134,8 @@ ReactDOM.render(
 );
 ```
 
+`React DOM` 会将元素和它的子元素与它们之前的状态进行比较，并只会进行必要的更新来使 `DOM` 达到预期的状态
+
 ## state注意事项
 
 ### 不要直接更新状态
@@ -167,6 +171,7 @@ this.setState((prevState, props) => ({
   counter: prevState.counter + props.increment
 }));
 ```
+
 ## JSX
 
 ```jsx
@@ -898,8 +903,6 @@ class App extends React.Component {
 ```
 
 :::warning
-
-
 不要仅仅为了避免在几个层级下的组件传递 `props` 而使用 `context`，它是被用于在多个层级的多个组件需要访问相同数据的情景。
 :::
 

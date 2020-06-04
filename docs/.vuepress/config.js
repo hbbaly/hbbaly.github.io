@@ -121,12 +121,33 @@ function getReactSidebar () {
     title: 'React知识',
     collapsable: true,
     children: [
-      'react',
-      'react-router',
+      'react-1',
+      'react-2',
+      'react-3',
+      'react-4',
+      'react-5',
+      'react-6',
+      'react-7',
+      'react-8',
+      'react-9',
+      'react-10',
+    ]
+  },
+  {
+    title: 'redux',
+    collapsable: true,
+    children: [
       'redux',
+    ]
+  },
+  {
+    title: 'cloud-music',
+    collapsable: true,
+    children: [
       'cloud-music'
     ]
-  }]
+  },
+]
 }
 function getToolSidebar () {
   return [{
