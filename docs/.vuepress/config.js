@@ -141,7 +141,21 @@ function getReactSidebar () {
     ]
   },
   {
-    title: 'cloud-music',
+    title: 'Next.js',
+    collapsable: true,
+    children: [
+      'next-1',
+      'next-2',
+      'next-3',
+      'next-4',
+      'next-5',
+      'next-6',
+      'next-7',
+      'next-8'
+    ]
+  },
+  {
+    title: 'cloud-music示例',
     collapsable: true,
     children: [
       'cloud-music'
