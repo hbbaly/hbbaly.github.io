@@ -96,7 +96,6 @@ export default function Custom404() {
 
 当找不到路由时就会使用新建的页面。
 
-
 :::tip
 这里大概是基础的`next.js`入门知识， 按照[官网](https://nextjs.org/learn/basics/create-nextjs-app)案例文档，一步步翻译写的。后续会写`next.js`进阶的东西。
 :::
