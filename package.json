@@ -20,6 +20,5 @@
   },
   "homepage": "https://github.com/hbbaly/blog#readme",
   "devDependencies": {
-    "vuepress-theme-reco": "^0.3.11"
   }
 }

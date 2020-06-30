@@ -1,5 +1,4 @@
 module.exports = {
-  theme: 'reco',
   title: 'hbbaly',
   description: 'Vue, React, node, TypeScript, Python及数据库基本知识',
   head: [
