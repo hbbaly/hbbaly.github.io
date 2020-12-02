@@ -1,4 +1,5 @@
 module.exports = {
+  theme: 'reco',
   title: 'hbbaly',
   description: 'Vue, React, node, TypeScript, Python及数据库基本知识',
   head: [
@@ -21,26 +22,41 @@ module.exports = {
     editLinks: true,
     // 默认为 "Edit this page"
     editLinkText: '帮助改善此页面！',
+    // nav: [
+    //   { text: 'Vue', link:'/vue/vue'},
+    //   { text: 'React',link:'/react/react'},
+    //   { text: 'NodeJs',link:'/nodeJs/nodeJs'},
+    //   { text: 'TypeScript',link:'/typescript/base'},
+    //   { text: 'Python',link:'/python/basicTypes'},
+    //   { text: 'DataBase',link:'/database/mongodb'},
+    //   { text: 'Tools',link:'/tools/markdown'},
+    //   { text: 'Gather',link:'/gather/yum'},
+    // ],
     nav: [
-      { text: 'Vue', link:'/vue/vue'},
-      { text: 'React',link:'/react/react'},
-      { text: 'NodeJs',link:'/nodeJs/nodeJs'},
-      { text: 'TypeScript',link:'/typescript/base'},
-      { text: 'Python',link:'/python/basicTypes'},
-      { text: 'DataBase',link:'/database/mongodb'},
-      { text: 'Tools',link:'/tools/markdown'},
-      { text: 'Gather',link:'/gather/yum'},
+      { text: 'categories', 
+        items: [
+          { text: 'Vue', link: '/vue/' },
+          { text: 'React', link: '/react/' },
+          { text: 'NodeJs', link: '/nodejs/' },
+          { text: 'TypeScript', link: '/typescript/' },
+          { text: 'Python', link: '/python/' },
+          { text: 'DataBase', link: '/database/' },
+          { text: 'Tools', link: '/tools/' },
+          { text: 'Gather', link: '/gather/' },
+          { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' }
+        ]
+      }
     ],
-    sidebar: {
-      '/vue/': getVueSidebar(),
-      '/react/':getReactSidebar(),
-      '/nodeJs/':getNodeSidebar(),
-      '/tools/':getToolSidebar(),
-      '/typescript/':getTypescriptSidebar(),
-      '/python/':getPythonSidebar(),
-      '/database/':getDataBaseSidebar(),
-      '/gather/':getDataGather()
-    },
+    // sidebar: {
+    //   '/vue/': getVueSidebar(),
+    //   '/react/':getReactSidebar(),
+    //   '/nodeJs/':getNodeSidebar(),
+    //   '/tools/':getToolSidebar(),
+    //   '/typescript/':getTypescriptSidebar(),
+    //   '/python/':getPythonSidebar(),
+    //   '/database/':getDataBaseSidebar(),
+    //   '/gather/':getDataGather()
+    // },
     serviceWorker: {
       updatePopup: true, // Boolean | Object, 默认值是 undefined.
       // 如果设置为 true, 默认的文本配置将是: 
@@ -60,10 +76,31 @@ module.exports = {
 }
 function getNodeSidebar () {
   return [{
-    title: 'NodeJs知识',
+    title: 'NodeJs案例',
     collapsable: true,
     children: [
-      'nodeJs',
+      'node-1',
+      'node-2',
+      'node-3',
+      'node-4',
+      'node-5',
+      'node-6',
+      'node-7',
+      'node-8',
+      'node-9',
+      'node-10',
+      'node-11',
+      'node-12',
+      'node-13',
+      'node-14',
+      'node-15',
+      'node-16'
+    ]
+  },
+  {
+    title: 'NodeJs基础知识',
+    collapsable: true,
+    children: [
       'express',
       'express-example',
       'koa2',
@@ -121,11 +158,47 @@ function getReactSidebar () {
     title: 'React知识',
     collapsable: true,
     children: [
-      'react',
-      'react-router',
-      'redux'
+      'react-1',
+      'react-2',
+      'react-3',
+      'react-4',
+      'react-5',
+      'react-6',
+      'react-7',
+      'react-8',
+      'react-9',
+      'react-10',
     ]
-  }]
+  },
+  {
+    title: 'redux',
+    collapsable: true,
+    children: [
+      'redux',
+    ]
+  },
+  {
+    title: 'Next.js',
+    collapsable: true,
+    children: [
+      'next-1',
+      'next-2',
+      'next-3',
+      'next-4',
+      'next-5',
+      'next-6',
+      'next-7',
+      'next-8'
+    ]
+  },
+  {
+    title: 'cloud-music示例',
+    collapsable: true,
+    children: [
+      'cloud-music'
+    ]
+  },
+]
 }
 function getToolSidebar () {
   return [{
@@ -168,6 +241,24 @@ function getDataGather () {
     children: [
       'yum',
       'copy'
+    ]
+  },
+  {
+    title: 'js小知识',
+    collapsable: true,
+    children: [
+      '1',
+      '2',
+      '3'
+    ]
+  },
+  {
+    title: 'css小知识',
+    collapsable: true,
+    children: [
+      'css-1',
+      'css-2',
+      'css-3'
     ]
   }]
 }

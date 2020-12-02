@@ -2,7 +2,7 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "layouts/Layout.vue",
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/hbbaly/blog/issues"
   },
-  "homepage": "https://github.com/hbbaly/blog#readme"
+  "homepage": "https://github.com/hbbaly/blog#readme",
+  "devDependencies": {
+    "vuepress-theme-reco": "^0.3.11"
+  }
 }
