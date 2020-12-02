@@ -22,26 +22,41 @@ module.exports = {
     editLinks: true,
     // 默认为 "Edit this page"
     editLinkText: '帮助改善此页面！',
+    // nav: [
+    //   { text: 'Vue', link:'/vue/vue'},
+    //   { text: 'React',link:'/react/react'},
+    //   { text: 'NodeJs',link:'/nodeJs/nodeJs'},
+    //   { text: 'TypeScript',link:'/typescript/base'},
+    //   { text: 'Python',link:'/python/basicTypes'},
+    //   { text: 'DataBase',link:'/database/mongodb'},
+    //   { text: 'Tools',link:'/tools/markdown'},
+    //   { text: 'Gather',link:'/gather/yum'},
+    // ],
     nav: [
-      { text: 'Vue', link:'/vue/vue'},
-      { text: 'React',link:'/react/react'},
-      { text: 'NodeJs',link:'/nodeJs/nodeJs'},
-      { text: 'TypeScript',link:'/typescript/base'},
-      { text: 'Python',link:'/python/basicTypes'},
-      { text: 'DataBase',link:'/database/mongodb'},
-      { text: 'Tools',link:'/tools/markdown'},
-      { text: 'Gather',link:'/gather/yum'},
+      { text: 'categories', 
+        items: [
+          { text: 'Vue', link: '/vue/' },
+          { text: 'React', link: '/react/' },
+          { text: 'NodeJs', link: '/nodejs/' },
+          { text: 'TypeScript', link: '/typescript/' },
+          { text: 'Python', link: '/python/' },
+          { text: 'DataBase', link: '/database/' },
+          { text: 'Tools', link: '/tools/' },
+          { text: 'Gather', link: '/gather/' },
+          { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' }
+        ]
+      }
     ],
-    sidebar: {
-      '/vue/': getVueSidebar(),
-      '/react/':getReactSidebar(),
-      '/nodeJs/':getNodeSidebar(),
-      '/tools/':getToolSidebar(),
-      '/typescript/':getTypescriptSidebar(),
-      '/python/':getPythonSidebar(),
-      '/database/':getDataBaseSidebar(),
-      '/gather/':getDataGather()
-    },
+    // sidebar: {
+    //   '/vue/': getVueSidebar(),
+    //   '/react/':getReactSidebar(),
+    //   '/nodeJs/':getNodeSidebar(),
+    //   '/tools/':getToolSidebar(),
+    //   '/typescript/':getTypescriptSidebar(),
+    //   '/python/':getPythonSidebar(),
+    //   '/database/':getDataBaseSidebar(),
+    //   '/gather/':getDataGather()
+    // },
     serviceWorker: {
       updatePopup: true, // Boolean | Object, 默认值是 undefined.
       // 如果设置为 true, 默认的文本配置将是: 
